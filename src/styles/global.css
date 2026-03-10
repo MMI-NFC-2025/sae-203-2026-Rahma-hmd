@@ -1,1 +1,96 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap');
+
+@theme {
+    /* Couleurs de la maquette */
+    --color-beige-claire: #f5f0e8;
+    --color-beige: #e3d5c3;
+    --color-marron-fonce: #4b2f23;
+    --color-or-vieilli: #c9a15d;
+    --color-vert-sapin: #095228;
+    --color-rouge-accent: #e55b5b;
+
+    /* Polices */
+    --font-titre: 'Playfair Display', serif;
+    --font-corps: 'Montserrat', sans-serif;
+
+    /* Tailles de texte */
+    --text-gros-titre: 40px;
+    --text-autres-titres: 32px;
+    --text-sous-titre: 16px;
+    --text-corps: 16px;
+    --text-sm: 14px;
+    --text-xl: 24px;
+
+    /* Espacements personnalisés */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    --spacing-3xl: 64px;
+    --spacing-4xl: 96px;
+
+    /* Grille personnalisée */
+    --my-grid: repeat(12, minmax(0, 88px));
+}
+
+@layer base {
+    body {
+        @apply font-corps text-corps leading-normal bg-beige-claire text-marron-fonce;
+    }
+
+    h1 {
+        @apply font-titre text-gros-titre leading-tight font-bold;
+    }
+
+    h2 {
+        @apply font-titre text-autres-titres leading-tight font-bold;
+    }
+
+    h3 {
+        @apply font-titre text-xl leading-tight font-bold;
+    }
+
+    p {
+        @apply font-corps text-corps leading-relaxed;
+    }
+
+    a {
+        @apply transition-colors duration-300;
+    }
+}
+
+@layer components {
+
+    /* Grille principale */
+    .grille {
+        @apply px-md lg:grid lg:grid-cols-(--my-grid) lg:justify-center lg:gap-lg;
+    }
+
+    /* Bouton principal */
+    .btn-primary {
+        @apply bg-rouge-accent text-beige-claire px-lg py-sm rounded-full font-corps font-medium transition-all duration-300 hover:opacity-90;
+    }
+
+    /* Bouton secondaire */
+    .btn-secondary {
+        @apply bg-vert-sapin text-beige-claire px-lg py-sm rounded-full font-corps font-medium transition-all duration-300 hover:opacity-90;
+    }
+
+    /* Bouton outline */
+    .btn-outline {
+        @apply border-2 border-marron-fonce text-marron-fonce px-lg py-sm rounded-full font-corps font-medium transition-all duration-300 hover:bg-marron-fonce hover:text-beige-claire;
+    }
+
+    /* Conteneur */
+    .container-festival {
+        @apply max-w-7xl mx-auto px-md;
+    }
+
+    /* Card */
+    .card {
+        @apply bg-beige rounded-md p-lg shadow-sm;
+    }
+}

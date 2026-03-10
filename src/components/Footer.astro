@@ -1,0 +1,169 @@
+---
+// Footer.astro - Pied de page du site
+import { Image } from "astro:assets";
+import facebookIcon from "../assets/icones/facebook1.svg";
+import instagramIcon from "../assets/icones/instagram1.svg";
+import twitterIcon from "../assets/icones/twitter1.svg";
+import youtubeIcon from "../assets/icones/youtube1.svg";
+import upArrowIcon from "../assets/icones/up-arrow.svg";
+---
+
+<footer class="bg-marron-fonce text-beige-claire py-12 px-8 lg:px-16">
+    <div class="max-w-6xl mx-auto">
+        <!-- Logo -->
+        <a
+            href="/"
+            class="font-titre text-xl tracking-wider uppercase block mb-10"
+        >
+            FESTICLOSE
+        </a>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <!-- Menu -->
+            <div>
+                <h3 class="font-corps font-bold text-lg mb-4">Menu</h3>
+                <nav>
+                    <ul class="flex flex-col gap-2">
+                        <li>
+                            <a
+                                href="/festival"
+                                class="font-corps hover:text-or-vieilli transition-colors"
+                                >Le Festival</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="/programmation"
+                                class="font-corps hover:text-or-vieilli transition-colors"
+                                >La Programmation</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="/artistes"
+                                class="font-corps hover:text-or-vieilli transition-colors"
+                                >Nos artistes</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="/scenes"
+                                class="font-corps hover:text-or-vieilli transition-colors"
+                                >Nos scènes</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="/infos"
+                                class="font-corps hover:text-or-vieilli transition-colors"
+                                >Infos Pratiques</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="/contact"
+                                class="font-corps hover:text-or-vieilli transition-colors"
+                                >Contact</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h3 class="font-corps font-bold text-lg mb-4">Contact</h3>
+                <address class="not-italic flex flex-col gap-2">
+                    <a
+                        href="mailto:festicloze@gmail.com"
+                        class="font-corps hover:text-or-vieilli transition-colors"
+                        >festicloze@gmail.com</a
+                    >
+                    <a
+                        href="tel:0954216721"
+                        class="font-corps hover:text-or-vieilli transition-colors"
+                        >09 54 21 67 21</a
+                    >
+                    <p class="font-corps">Temple Saint-Martin</p>
+                    <p class="font-corps">25200 Montbéliard</p>
+                </address>
+            </div>
+
+            <!-- Réseaux sociaux -->
+            <div>
+                <p class="font-corps text-sm mb-4">Nous suivre</p>
+                <div class="flex gap-4 mb-2">
+                    <a
+                        href="https://www.facebook.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Facebook"
+                        class="hover:opacity-70 transition-opacity"
+                    >
+                        <img
+                            src={facebookIcon.src}
+                            alt="Facebook"
+                            class="w-8 h-8"
+                        />
+                    </a>
+                    <a
+                        href="https://www.instagram.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Instagram"
+                        class="hover:opacity-70 transition-opacity"
+                    >
+                        <img
+                            src={instagramIcon.src}
+                            alt="Instagram"
+                            class="w-8 h-8"
+                        />
+                    </a>
+                    <a
+                        href="https://www.twitter.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Twitter"
+                        class="hover:opacity-70 transition-opacity"
+                    >
+                        <img
+                            src={twitterIcon.src}
+                            alt="Twitter"
+                            class="w-8 h-8"
+                        />
+                    </a>
+                    <a
+                        href="https://www.youtube.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="YouTube"
+                        class="hover:opacity-70 transition-opacity"
+                    >
+                        <img
+                            src={youtubeIcon.src}
+                            alt="YouTube"
+                            class="w-8 h-8"
+                        />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bouton retour en haut -->
+    <button
+        id="btn-scroll-top"
+        class="fixed bottom-8 right-8 w-12 h-12 bg-beige-claire text-marron-fonce rounded-full flex items-center justify-center hover:bg-or-vieilli transition-colors shadow-lg"
+        aria-label="Retour en haut de la page"
+    >
+        <img src={upArrowIcon.src} alt="" class="w-6 h-6" />
+    </button>
+</footer>
+
+<script>
+    const btnScrollTop = document.getElementById("btn-scroll-top");
+
+    btnScrollTop?.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+</script>

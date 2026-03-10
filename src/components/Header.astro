@@ -1,0 +1,167 @@
+---
+// Header.astro - Navigation principale du site
+---
+
+<header
+    class="fixed top-0 left-0 w-full h-[70px] px-6 flex justify-between items-center z-50 bg-beige-claire"
+>
+    <a
+        class="font-titre text-marron-fonce text-lg tracking-wider uppercase"
+        href="/"
+    >
+        FESTICLOSE
+    </a>
+
+    <button
+        id="bouton-menu"
+        class="relative flex flex-col justify-center items-center w-8 h-8 cursor-pointer bg-transparent border-none z-[60] lg:hidden"
+        aria-label="Ouvrir le menu de navigation"
+        aria-expanded="false"
+        aria-controls="navigation-principale"
+    >
+        <span
+            class="barre barre-1 block absolute w-6 h-0.5 bg-marron-fonce rounded-full transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            aria-hidden="true"></span>
+        <span
+            class="barre barre-2 block absolute w-6 h-0.5 bg-marron-fonce rounded-full transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            aria-hidden="true"></span>
+        <span
+            class="barre barre-3 block absolute w-6 h-0.5 bg-marron-fonce rounded-full transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            aria-hidden="true"></span>
+    </button>
+
+    <nav
+        id="navigation-principale"
+        class="nav-mobile fixed inset-0 bg-marron-fonce flex items-start pt-32 opacity-0 invisible transition-all duration-500 z-[55] lg:static lg:bg-transparent lg:opacity-100 lg:visible lg:flex lg:items-center lg:pt-0 lg:h-auto lg:w-auto lg:z-auto"
+    >
+        <ul
+            class="flex flex-col items-start gap-8 px-10 lg:flex-row lg:items-center lg:gap-8 lg:px-0"
+        >
+            <li
+                class="nav-item opacity-0 translate-y-4 transition-all duration-300 lg:opacity-100 lg:translate-y-0"
+                style="transition-delay: 0.1s;"
+            >
+                <a
+                    class="font-corps font-bold text-beige-claire text-xl hover:text-or-vieilli transition-colors duration-300 lg:text-marron-fonce lg:text-base lg:hover:text-rouge-accent"
+                    href="/">Acceuil</a
+                >
+            </li>
+            <li
+                class="nav-item opacity-0 translate-y-4 transition-all duration-300 lg:opacity-100 lg:translate-y-0"
+                style="transition-delay: 0.15s;"
+            >
+                <a
+                    class="font-corps font-bold text-beige-claire text-xl hover:text-or-vieilli transition-colors duration-300 lg:text-marron-fonce lg:text-base lg:hover:text-rouge-accent"
+                    href="/festival">Le festival</a
+                >
+            </li>
+            <li
+                class="nav-item opacity-0 translate-y-4 transition-all duration-300 lg:opacity-100 lg:translate-y-0"
+                style="transition-delay: 0.2s;"
+            >
+                <a
+                    class="font-corps font-bold text-beige-claire text-xl hover:text-or-vieilli transition-colors duration-300 lg:text-marron-fonce lg:text-base lg:hover:text-rouge-accent"
+                    href="/programmation">La programmation</a
+                >
+            </li>
+            <li
+                class="nav-item opacity-0 translate-y-4 transition-all duration-300 lg:opacity-100 lg:translate-y-0"
+                style="transition-delay: 0.25s;"
+            >
+                <a
+                    class="font-corps font-bold text-beige-claire text-xl hover:text-or-vieilli transition-colors duration-300 lg:text-marron-fonce lg:text-base lg:hover:text-rouge-accent"
+                    href="/artistes">Nos artistes</a
+                >
+            </li>
+            <li
+                class="nav-item opacity-0 translate-y-4 transition-all duration-300 lg:opacity-100 lg:translate-y-0"
+                style="transition-delay: 0.3s;"
+            >
+                <a
+                    class="font-corps font-bold text-beige-claire text-xl hover:text-or-vieilli transition-colors duration-300 lg:text-marron-fonce lg:text-base lg:hover:text-rouge-accent"
+                    href="/scenes">Nos scènes</a
+                >
+            </li>
+            <li
+                class="nav-item opacity-0 translate-y-4 transition-all duration-300 lg:opacity-100 lg:translate-y-0"
+                style="transition-delay: 0.35s;"
+            >
+                <a
+                    class="font-corps font-bold text-beige-claire text-xl hover:text-or-vieilli transition-colors duration-300 lg:text-marron-fonce lg:text-base lg:hover:text-rouge-accent"
+                    href="/infos">Infos pratiques</a
+                >
+            </li>
+            <li
+                class="nav-item opacity-0 translate-y-4 transition-all duration-300 lg:opacity-100 lg:translate-y-0"
+                style="transition-delay: 0.4s;"
+            >
+                <a
+                    class="font-corps font-bold text-beige-claire text-xl hover:text-or-vieilli transition-colors duration-300 lg:text-marron-fonce lg:text-base lg:hover:text-rouge-accent"
+                    href="/contact">Contact</a
+                >
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<style>
+    /* Position initiale des barres du menu burger */
+    .barre-1 {
+        transform: translateY(-8px);
+    }
+    .barre-3 {
+        transform: translateY(8px);
+    }
+
+    /* État ouvert du menu burger -> croix */
+    .menu-ouvert .barre-1 {
+        transform: rotate(45deg);
+        background-color: #f5f0e8;
+    }
+    .menu-ouvert .barre-2 {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    .menu-ouvert .barre-3 {
+        transform: rotate(-45deg);
+        background-color: #f5f0e8;
+    }
+
+    /* Menu visible */
+    .menu-visible {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Animation des items quand le menu est visible */
+    .menu-visible .nav-item {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+</style>
+
+<script>
+    const boutonMenu = document.getElementById("bouton-menu");
+    const navigation = document.getElementById("navigation-principale");
+
+    boutonMenu?.addEventListener("click", () => {
+        const isExpanded = boutonMenu.getAttribute("aria-expanded") === "true";
+
+        boutonMenu.setAttribute("aria-expanded", String(!isExpanded));
+        boutonMenu.classList.toggle("menu-ouvert");
+        navigation?.classList.toggle("menu-visible");
+
+        // Empêcher le scroll du body quand le menu est ouvert
+        document.body.style.overflow = !isExpanded ? "hidden" : "";
+    });
+
+    // Fermer le menu quand on clique sur un lien
+    navigation?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            boutonMenu?.setAttribute("aria-expanded", "false");
+            boutonMenu?.classList.remove("menu-ouvert");
+            navigation?.classList.remove("menu-visible");
+            document.body.style.overflow = "";
+        });
+    });
+</script>

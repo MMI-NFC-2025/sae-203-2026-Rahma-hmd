@@ -144,6 +144,95 @@ const genres = [
         </div>
     </section>
 
+    <!-- Formulaire ajout d'événement -->
+    <section class="section bg-beige-claire border-b border-beige/60">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full lg:col-span-8 lg:col-start-3">
+                    <h2
+                        class="font-corps font-bold text-marron-fonce text-xl md:text-2xl mb-4"
+                    >
+                        Ajouter un événement
+                    </h2>
+                    <form
+                        id="add-event-form"
+                        class="grid gap-4 md:grid-cols-2 font-corps text-sm md:text-base"
+                    >
+                        <div class="flex flex-col gap-1">
+                            <label for="event-date" class="text-marron-fonce"
+                                >Date</label
+                            >
+                            <input
+                                id="event-date"
+                                type="date"
+                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                required
+                            />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label for="event-time" class="text-marron-fonce"
+                                >Heure</label
+                            >
+                            <input
+                                id="event-time"
+                                type="time"
+                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                required
+                            />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label for="event-artist" class="text-marron-fonce"
+                                >Nom de l'artiste</label
+                            >
+                            <input
+                                id="event-artist"
+                                type="text"
+                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                required
+                            />
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label for="event-genre" class="text-marron-fonce"
+                                >Genre</label
+                            >
+                            <input
+                                id="event-genre"
+                                type="text"
+                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                required
+                            />
+                        </div>
+                        <div class="flex flex-col gap-1 md:col-span-2">
+                            <label for="event-scene" class="text-marron-fonce"
+                                >Scène</label
+                            >
+                            <select
+                                id="event-scene"
+                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                required
+                            >
+                                <option value="">Choisir une scène</option>
+                                {scenes.map((scene) => (
+                                    <option value={scene.nom.trim()}>
+                                        {scene.nom.trim()}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div class="md:col-span-2 flex justify-end">
+                            <button
+                                type="submit"
+                                class="btn-primary px-6 py-2 text-sous-titre uppercase tracking-wide"
+                            >
+                                Ajouter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Programme par jour -->
     <section class="section bg-beige-claire">
         <div class="container">
@@ -252,10 +341,10 @@ const genres = [
             const matchHoraire = !horaireValue || itemHoraire === horaireValue;
 
             if (matchScene && matchGenre && matchHoraire) {
-                (item as HTMLElement).style.display = "";
+                item.style.display = "";
                 visibleCount++;
             } else {
-                (item as HTMLElement).style.display = "none";
+                item.style.display = "none";
             }
         });
 
@@ -265,9 +354,9 @@ const genres = [
                 '.programme-item:not([style*="display: none"])',
             );
             if (visibleItems.length === 0) {
-                (day as HTMLElement).style.display = "none";
+                day.style.display = "none";
             } else {
-                (day as HTMLElement).style.display = "";
+                day.style.display = "";
             }
         });
 
@@ -285,6 +374,107 @@ const genres = [
         if (filterScene) filterScene.value = "";
         if (filterGenre) filterGenre.value = "";
         if (filterHoraire) filterHoraire.value = "";
+        applyFilters();
+    });
+
+    // Ajout d'événements côté interface
+    const addEventForm = document.getElementById("add-event-form");
+    const programmeList = document.getElementById("programme-list");
+
+    addEventForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!programmeList) return;
+
+        const dateInput = document.getElementById(
+            "event-date",
+        ) as HTMLInputElement | null;
+        const timeInput = document.getElementById(
+            "event-time",
+        ) as HTMLInputElement | null;
+        const artistInput = document.getElementById(
+            "event-artist",
+        ) as HTMLInputElement | null;
+        const genreInput = document.getElementById(
+            "event-genre",
+        ) as HTMLInputElement | null;
+        const sceneSelect = document.getElementById(
+            "event-scene",
+        ) as HTMLSelectElement | null;
+
+        if (
+            !dateInput ||
+            !timeInput ||
+            !artistInput ||
+            !genreInput ||
+            !sceneSelect
+        ) {
+            return;
+        }
+
+        const dateValue = dateInput.value;
+        const timeValue = timeInput.value;
+        const artistValue = artistInput.value;
+        const genreValue = genreInput.value;
+        const sceneValue = sceneSelect.value;
+
+        if (!dateValue || !timeValue || !artistValue || !genreValue || !sceneValue) {
+            return;
+        }
+
+        const date = new Date(`${dateValue}T${timeValue}`);
+        const dateKey = date.toLocaleDateString("fr-FR", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+        }).toUpperCase();
+        const heureLabel = date.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+
+        let dayBlock = programmeList.querySelector(
+            `.programme-day[data-date="${dateKey}"]`,
+        ) as HTMLElement | null;
+
+        if (!dayBlock) {
+            dayBlock = document.createElement("div");
+            dayBlock.className = "programme-day";
+            dayBlock.dataset.date = String(dateKey);
+            dayBlock.innerHTML = `
+                <h2 class="font-corps font-bold text-marron-fonce text-lg mb-2">${dateKey}</h2>
+                <p class="font-corps text-marron-fonce/70 text-sm mb-4">${artistValue}</p>
+                <ul class="space-y-3"></ul>
+            `;
+            programmeList.appendChild(dayBlock);
+        }
+
+        const list = dayBlock.querySelector("ul");
+        if (!list) return;
+
+        const li = document.createElement("li");
+        li.className =
+            "programme-item flex items-start gap-2 font-corps text-marron-fonce";
+        li.dataset.scene = sceneValue;
+        li.dataset.genre = genreValue;
+        li.innerHTML = `
+            <span class="text-marron-fonce/60">•</span>
+            <div>
+                <span class="font-medium">${heureLabel}</span>
+                <span class="mx-2">—</span>
+                <span>Événement ajouté</span>
+                <span class="text-or-vieilli ml-1">${artistValue}</span>
+                <span class="text-marron-fonce/50 text-sm ml-2">@ ${sceneValue}</span>
+            </div>
+        `;
+
+        list.appendChild(li);
+
+        dateInput.value = "";
+        timeInput.value = "";
+        artistInput.value = "";
+        genreInput.value = "";
+        sceneSelect.value = "";
+
         applyFilters();
     });
 </script>

@@ -1,0 +1,82 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import { getScenesByName } from "../../../backend/backend.mjs";
+
+import heroImage from "../../assets/images/festival.avif";
+
+const scenes = await getScenesByName();
+
+const scenesAvecPhoto = scenes.map((scene) => ({
+    id: scene.id,
+    nom: scene.nom,
+    _photoPrincipale: Array.isArray(scene.photo)
+        ? scene.photo[0]
+        : scene.photo,
+}));
+---
+
+<Layout>
+    <!-- Hero scènes -->
+    <section class="relative h-[40vh] md:h-[50vh]">
+        <Image
+            src={heroImage}
+            alt="Scènes du festival"
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+        />
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-marron-fonce/60 to-transparent"
+        >
+        </div>
+        <div class="absolute inset-0 flex items-end">
+            <div class="container pb-12 md:pb-16">
+                <h1
+                    class="font-titre text-beige-claire text-4xl md:text-5xl lg:text-6xl tracking-wide drop-shadow-lg"
+                >
+                    NOS SCÈNES
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Liste des scènes -->
+    <section class="py-12 bg-beige-claire min-h-screen">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full lg:col-span-8 lg:col-start-3">
+                    <div class="space-y-5 md:space-y-6">
+                        {scenesAvecPhoto.map((scene) => (
+                            <a
+                                href={`/scenes/${scene.id}`}
+                                class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-or-vieilli focus-visible:ring-offset-2 focus-visible:ring-offset-beige-claire rounded-3xl"
+                            >
+                                <article
+                                    class="bg-marron-fonce rounded-3xl shadow-lg overflow-hidden w-full transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl"
+                                >
+                                    {scene._photoPrincipale && (
+                                        <div class="w-full">
+                                            <img
+                                                src={`https://festicloze.rahmaproject.fr/api/files/scene/${scene.id}/${scene._photoPrincipale}`}
+                                                alt={scene.nom}
+                                                loading="lazy"
+                                                class="w-full h-56 md:h-72 object-cover"
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div class="px-6 py-5 text-left">
+                                        <h2 class="font-titre text-beige-claire text-base md:text-lg tracking-wide uppercase">
+                                            {scene.nom}
+                                        </h2>
+                                    </div>
+                                </article>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
+*** End Patch```} ***!

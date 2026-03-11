@@ -1,6 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
 import { getArtistesByDate } from "../../../backend/backend.mjs";
+
+import heroImage from "../../assets/images/festival.avif";
 
 const rawArtistes = await getArtistesByDate();
 
@@ -25,17 +28,25 @@ const artistes = rawArtistes.map((artiste) => {
 ---
 
 <Layout>
-    <!-- Titre principal -->
-    <section class="py-10 md:py-12 bg-beige-claire border-b border-beige">
-        <div class="container">
-            <div class="grid-12">
-                <div class="col-full lg:col-span-8 lg:col-start-3">
-                    <h1
-                        class="font-titre text-marron-fonce text-4xl md:text-5xl lg:text-6xl tracking-wide"
-                    >
-                        NOS ARTISTES
-                    </h1>
-                </div>
+    <!-- Hero Section -->
+    <section class="relative h-[40vh] md:h-[50vh]">
+        <Image
+            src={heroImage}
+            alt="Artistes du festival"
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+        />
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-marron-fonce/60 to-transparent"
+        >
+        </div>
+        <div class="absolute inset-0 flex items-end">
+            <div class="container pb-12 md:pb-16">
+                <h1
+                    class="font-titre text-beige-claire text-4xl md:text-5xl lg:text-6xl tracking-wide drop-shadow-lg"
+                >
+                    NOS ARTISTES
+                </h1>
             </div>
         </div>
     </section>

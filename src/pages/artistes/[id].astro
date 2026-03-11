@@ -18,13 +18,17 @@ const representations = allRepresentations.filter(
 );
 
 const firstRepresentation = representations[0];
-const scenes = [
-    ...new Map(
-        representations
-            .filter((rep) => rep.expand?.scene)
-            .map((rep) => [rep.expand.scene.id, rep.expand.scene]),
-    ).values(),
-];
+
+// Construire la liste des scènes uniques à partir des représentations
+const scenesMap = new Map();
+for (const rep of representations) {
+    const scene = rep.expand?.scene;
+    if (!scene) continue;
+    if (!scenesMap.has(scene.id)) {
+        scenesMap.set(scene.id, scene);
+    }
+}
+const scenes = Array.from(scenesMap.values());
 
 const datesFormatees = representations.map((rep) => {
     const date = new Date(rep.date_heure);
@@ -95,11 +99,11 @@ const datesFormatees = representations.map((rep) => {
                             >
                                 À propos de l'artiste
                             </h2>
-                            <p
-                                class="font-corps text-marron-fonce/90 leading-relaxed text-base md:text-lg"
+                            <div
+                                class="font-corps text-marron-fonce/90 leading-relaxed text-base md:text-lg prose max-w-none"
+                                set:html={artiste.description}
                             >
-                                {artiste.description}
-                            </p>
+                            </div>
                         </div>
                     )}
 
@@ -117,16 +121,18 @@ const datesFormatees = representations.map((rep) => {
                                         class="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory"
                                     >
                                         {artiste.galerie.map((photo) => (
-                                            <div
-                                                class="min-w-[70%] md:min-w-[50%] lg:min-w-[40%] rounded-3xl overflow-hidden shadow-lg bg-marron-fonce/5 snap-start"
+                                            <button
+                                                type="button"
+                                                class="min-w-[70%] md:min-w-[50%] lg:min-w-[40%] rounded-3xl overflow-hidden shadow-lg bg-marron-fonce/5 snap-start focus:outline-none focus-visible:ring-2 focus-visible:ring-or-vieilli"
+                                                data-full-src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${photo}`}
                                             >
                                                 <img
                                                     src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${photo}`}
                                                     alt={artiste.nom}
-                                                    class="w-full h-48 md:h-64 object-cover"
+                                                    class="w-full h-48 md:h-64 object-cover pointer-events-none"
                                                     loading="lazy"
                                                 />
-                                            </div>
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
@@ -180,4 +186,65 @@ const datesFormatees = representations.map((rep) => {
             </div>
         </div>
     </section>
+
+    <!-- Lightbox pour la galerie -->
+    <div
+        id="artist-lightbox"
+        class="fixed inset-0 bg-black/80 z-40 items-center justify-center px-4 hidden"
+    >
+        <button
+            type="button"
+            id="artist-lightbox-close"
+            class="absolute top-4 right-4 text-beige-claire text-3xl font-bold"
+            aria-label="Fermer l'image en grand"
+        >
+            ×
+        </button>
+        <img
+            id="artist-lightbox-img"
+            src=""
+            alt={artiste?.nom || "Photo grand format"}
+            class="max-h-[90vh] max-w-full rounded-3xl shadow-2xl object-contain"
+        />
+    </div>
 </Layout>
+
+<script>
+    const lightbox = document.getElementById("artist-lightbox");
+    const lightboxImg = document.getElementById(
+        "artist-lightbox-img",
+    ) as HTMLImageElement | null;
+    const lightboxClose = document.getElementById("artist-lightbox-close");
+
+    const thumbs = document.querySelectorAll(
+        "[data-full-src]",
+    ) as NodeListOf<HTMLButtonElement>;
+
+    function openLightbox(src: string) {
+        if (!lightbox || !lightboxImg) return;
+        lightboxImg.src = src;
+        lightbox.classList.remove("hidden");
+        lightbox.classList.add("flex");
+    }
+
+    function closeLightbox() {
+        if (!lightbox || !lightboxImg) return;
+        lightbox.classList.add("hidden");
+        lightbox.classList.remove("flex");
+        lightboxImg.src = "";
+    }
+
+    thumbs.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const src = btn.getAttribute("data-full-src");
+            if (src) openLightbox(src);
+        });
+    });
+
+    lightboxClose?.addEventListener("click", closeLightbox);
+    lightbox?.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+</script>

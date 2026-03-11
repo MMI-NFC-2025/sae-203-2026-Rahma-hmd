@@ -1,95 +1,238 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { Image } from 'astro:assets';
+import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
 
-import heroImage from '../../assets/images/festival.avif';
-import equipeImage from '../../assets/images/theatre.avif';
+import heroImage from "../../assets/images/festival.avif";
+import equipeImage from "../../assets/images/theatre.avif";
 ---
 
 <Layout>
     <!-- Hero Section -->
-    <section class="relative h-[60vh] min-h-100">
-        <Image 
+    <section class="relative h-screen">
+        <Image
             src={heroImage}
             alt="Le Festival Festicloze"
             class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
         />
-        <div class="absolute inset-0 flex items-end p-6 md:p-10">
-            <h1 class="font-titre text-beige-claire text-3xl md:text-4xl lg:text-5xl tracking-wide">
-                LE FESTIVAL
-            </h1>
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-marron-fonce/50 to-transparent"
+        >
+        </div>
+        <div class="absolute inset-0 flex items-end">
+            <div class="container pb-16 md:pb-20">
+                <h1
+                    class="font-titre text-beige-claire text-4xl md:text-5xl lg:text-6xl tracking-wide drop-shadow-lg"
+                >
+                    LE FESTIVAL
+                </h1>
+            </div>
         </div>
     </section>
 
     <!-- L'Esprit Festicloze -->
-    <section class="py-12 px-6 bg-beige-claire">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="font-corps font-bold text-marron-fonce text-xl mb-6">
-                L'Esprit Festicloze
-            </h2>
-            <p class="font-corps text-marron-fonce leading-relaxed text-justify">
-                Né au majestueux Temple Saint-Martin, Festicloze célèbre l'opéra baroque au cœur des Lumières de Montbéliard. Concerts, danses et rencontres s'unissent pour offrir une expérience unique, mêlant excellence musicale, patrimoine historique et magie de Noël.
-            </p>
+    <section class="section bg-beige-claire">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full lg:col-span-8 lg:col-start-3">
+                    <h2
+                        class="font-corps font-bold text-marron-fonce text-2xl mb-8"
+                    >
+                        L'Esprit Festicloze
+                    </h2>
+                    <p
+                        class="font-corps text-marron-fonce leading-loose text-lg"
+                    >
+                        Né au majestueux Temple Saint-Martin, Festicloze célèbre
+                        l'opéra baroque au cœur des Lumières de Montbéliard.
+                        Concerts, danses et rencontres s'unissent pour offrir
+                        une expérience unique, mêlant excellence musicale,
+                        patrimoine historique et magie de Noël.
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Image de la section -->
-    <section class="bg-beige-claire px-6 pb-12">
-        <div class="max-w-3xl mx-auto">
-            <div class="rounded-2xl overflow-hidden">
-                <Image 
-                    src={equipeImage}
-                    alt="Représentation baroque"
-                    class="w-full h-64 md:h-80 object-cover"
-                />
+    <!-- Image décorative -->
+    <section class="bg-beige-claire pb-16">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full lg:col-span-10 lg:col-start-2">
+                    <div class="rounded-3xl overflow-hidden shadow-xl">
+                        <Image
+                            src={equipeImage}
+                            alt="Représentation baroque"
+                            class="w-full h-72 md:h-96 object-cover hover:scale-105 transition-transform duration-700"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Équipe -->
-    <section class="py-12 px-6 bg-beige-claire">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="font-corps font-bold text-marron-fonce text-xl mb-6">
-                Équipe
-            </h2>
-            <p class="font-corps text-marron-fonce leading-relaxed mb-6 text-justify">
-                Orchestré par une équipe passionnée, Festicloze s'appuie sur une régie technique d'experts. De la direction artistique à la mise en lumière, tous s'unissent en coulisses pour garantir une qualité de spectacle irréprochable.
-            </p>
-            <ul class="font-corps text-marron-fonce space-y-3">
-                <li class="flex items-start gap-2">
-                    <span class="text-marron-fonce">•</span>
-                    <span>Sarah Monteverdi (Directrice Artistique),</span>
-                </li>
-                <li class="flex items-start gap-2">
-                    <span class="text-marron-fonce">•</span>
-                    <span>L'Atelier des Lumières (Scénographie)</span>
-                </li>
-            </ul>
+    <section class="section bg-beige">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full lg:col-span-8 lg:col-start-3">
+                    <h2
+                        class="font-corps font-bold text-marron-fonce text-2xl mb-8"
+                    >
+                        Équipe
+                    </h2>
+                    <p
+                        class="font-corps text-marron-fonce leading-loose text-lg mb-8"
+                    >
+                        Orchestré par une équipe passionnée, Festicloze s'appuie
+                        sur une régie technique d'experts. De la direction
+                        artistique à la mise en lumière, tous s'unissent en
+                        coulisses pour garantir une qualité de spectacle
+                        irréprochable.
+                    </p>
+
+                    <!-- Liste équipe avec grille -->
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div
+                            class="flex items-center gap-4 p-4 bg-beige-claire rounded-2xl"
+                        >
+                            <div
+                                class="w-3 h-3 bg-or-vieilli rounded-full shrink-0"
+                            >
+                            </div>
+                            <span class="font-corps text-marron-fonce"
+                                >Sarah Monteverdi (Directrice Artistique)</span
+                            >
+                        </div>
+                        <div
+                            class="flex items-center gap-4 p-4 bg-beige-claire rounded-2xl"
+                        >
+                            <div
+                                class="w-3 h-3 bg-or-vieilli rounded-full shrink-0"
+                            >
+                            </div>
+                            <span class="font-corps text-marron-fonce"
+                                >L'Atelier des Lumières (Scénographie)</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Valeurs, Thématique, Engagements -->
-    <section class="py-12 px-6 bg-beige-claire">
-        <div class="max-w-3xl mx-auto space-y-8">
-            <!-- Valeurs -->
-            <div>
-                <p class="font-corps text-marron-fonce leading-relaxed">
-                    <span class="font-bold">Valeurs</span> : Respect du patrimoine et transmission du baroque à tous les publics.
-                </p>
-            </div>
+    <!-- Charte : Valeurs, Thématique, Engagements -->
+    <section class="section bg-beige-claire">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full">
+                    <!-- Scroll horizontal sur mobile, grille sur desktop -->
+                    <div
+                        class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:pb-0 scrollbar-hide"
+                    >
+                        <!-- Valeurs -->
+                        <div
+                            class="card flex-shrink-0 w-72 md:w-auto snap-start"
+                        >
+                            <div
+                                class="w-12 h-12 bg-marron-fonce rounded-full flex items-center justify-center mb-4"
+                            >
+                                <svg
+                                    class="w-6 h-6 text-beige-claire"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <h3
+                                class="font-corps font-bold text-marron-fonce text-lg mb-3"
+                            >
+                                Valeurs
+                            </h3>
+                            <p
+                                class="font-corps text-marron-fonce/80 leading-relaxed"
+                            >
+                                Respect du patrimoine et transmission du baroque
+                                à tous les publics.
+                            </p>
+                        </div>
 
-            <!-- Thématique -->
-            <div>
-                <p class="font-corps text-marron-fonce leading-relaxed">
-                    <span class="font-bold">Thématique 2025</span> : La magie de Noël sublime les artistes dans une ambiance chaleureuse.
-                </p>
-            </div>
+                        <!-- Thématique -->
+                        <div
+                            class="card flex-shrink-0 w-72 md:w-auto snap-start"
+                        >
+                            <div
+                                class="w-12 h-12 bg-or-vieilli rounded-full flex items-center justify-center mb-4"
+                            >
+                                <svg
+                                    class="w-6 h-6 text-beige-claire"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <h3
+                                class="font-corps font-bold text-marron-fonce text-lg mb-3"
+                            >
+                                Thématique 2026
+                            </h3>
+                            <p
+                                class="font-corps text-marron-fonce/80 leading-relaxed"
+                            >
+                                La magie de Noël sublime les artistes dans une
+                                ambiance chaleureuse.
+                            </p>
+                        </div>
 
-            <!-- Engagements -->
-            <div>
-                <p class="font-corps text-marron-fonce leading-relaxed">
-                    <span class="font-bold">Engagements</span> : Un événement éco-responsable, inclusif et ancré dans le territoire local.
-                </p>
+                        <!-- Engagements -->
+                        <div
+                            class="card flex-shrink-0 w-72 md:w-auto snap-start"
+                        >
+                            <div
+                                class="w-12 h-12 bg-vert-sapin rounded-full flex items-center justify-center mb-4"
+                            >
+                                <svg
+                                    class="w-6 h-6 text-beige-claire"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <h3
+                                class="font-corps font-bold text-marron-fonce text-lg mb-3"
+                            >
+                                Engagements
+                            </h3>
+                            <p
+                                class="font-corps text-marron-fonce/80 leading-relaxed"
+                            >
+                                Un événement éco-responsable, inclusif et ancré
+                                dans le territoire local.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

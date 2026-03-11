@@ -64,10 +64,59 @@
 
 @layer components {
 
-    /* Grille principale */
-    .grille {
-        @apply px-md lg:grid lg:grid-cols-(--my-grid) lg:justify-center lg:gap-lg;
+    /* ===== SYSTÈME DE GRILLE ===== */
+
+    /* Conteneur principal - centré avec max-width */
+    .container {
+        @apply w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8;
     }
+
+    /* Conteneur étroit pour le texte */
+    .container-narrow {
+        @apply w-full max-w-3xl mx-auto px-4 md:px-6;
+    }
+
+    /* Conteneur large */
+    .container-wide {
+        @apply w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8;
+    }
+
+    /* Grille responsive 12 colonnes */
+    .grid-12 {
+        @apply grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 md:gap-6;
+    }
+
+    /* Colonnes - Mobile first */
+    .col-full {
+        @apply col-span-4 md:col-span-8 lg:col-span-12;
+    }
+
+    .col-half {
+        @apply col-span-4 md:col-span-4 lg:col-span-6;
+    }
+
+    .col-third {
+        @apply col-span-4 md:col-span-4 lg:col-span-4;
+    }
+
+    .col-quarter {
+        @apply col-span-2 md:col-span-2 lg:col-span-3;
+    }
+
+    .col-two-thirds {
+        @apply col-span-4 md:col-span-6 lg:col-span-8;
+    }
+
+    /* Section avec espacement vertical cohérent */
+    .section {
+        @apply py-12 md:py-16 lg:py-20;
+    }
+
+    .section-sm {
+        @apply py-8 md:py-12;
+    }
+
+    /* ===== COMPOSANTS ===== */
 
     /* Bouton principal */
     .btn-primary {
@@ -84,13 +133,18 @@
         @apply border-2 border-marron-fonce text-marron-fonce px-lg py-sm rounded-full font-corps font-medium transition-all duration-300 hover:bg-marron-fonce hover:text-beige-claire;
     }
 
-    /* Conteneur */
-    .container-festival {
-        @apply max-w-7xl mx-auto px-md;
-    }
-
     /* Card */
     .card {
-        @apply bg-beige rounded-md p-lg shadow-sm;
+        @apply bg-beige rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300;
+    }
+
+    /* Masquer scrollbar */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
     }
 }

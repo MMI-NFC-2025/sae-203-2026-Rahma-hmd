@@ -212,11 +212,13 @@ const genres = [
                                 required
                             >
                                 <option value="">Choisir une scène</option>
-                                {scenes.map((scene) => (
-                                    <option value={scene.nom.trim()}>
-                                        {scene.nom.trim()}
-                                    </option>
-                                ))}
+                                {
+                                    scenes.map((scene) => (
+                                        <option value={scene.nom.trim()}>
+                                            {scene.nom.trim()}
+                                        </option>
+                                    ))
+                                }
                             </select>
                         </div>
                         <div class="md:col-span-2 flex justify-end">
@@ -341,10 +343,10 @@ const genres = [
             const matchHoraire = !horaireValue || itemHoraire === horaireValue;
 
             if (matchScene && matchGenre && matchHoraire) {
-                item.style.display = "";
+                (item as HTMLElement).style.display = "";
                 visibleCount++;
             } else {
-                item.style.display = "none";
+                (item as HTMLElement).style.display = "none";
             }
         });
 
@@ -354,9 +356,9 @@ const genres = [
                 '.programme-item:not([style*="display: none"])',
             );
             if (visibleItems.length === 0) {
-                day.style.display = "none";
+                (day as HTMLElement).style.display = "none";
             } else {
-                day.style.display = "";
+                (day as HTMLElement).style.display = "";
             }
         });
 
@@ -374,107 +376,6 @@ const genres = [
         if (filterScene) filterScene.value = "";
         if (filterGenre) filterGenre.value = "";
         if (filterHoraire) filterHoraire.value = "";
-        applyFilters();
-    });
-
-    // Ajout d'événements côté interface
-    const addEventForm = document.getElementById("add-event-form");
-    const programmeList = document.getElementById("programme-list");
-
-    addEventForm?.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (!programmeList) return;
-
-        const dateInput = document.getElementById(
-            "event-date",
-        ) as HTMLInputElement | null;
-        const timeInput = document.getElementById(
-            "event-time",
-        ) as HTMLInputElement | null;
-        const artistInput = document.getElementById(
-            "event-artist",
-        ) as HTMLInputElement | null;
-        const genreInput = document.getElementById(
-            "event-genre",
-        ) as HTMLInputElement | null;
-        const sceneSelect = document.getElementById(
-            "event-scene",
-        ) as HTMLSelectElement | null;
-
-        if (
-            !dateInput ||
-            !timeInput ||
-            !artistInput ||
-            !genreInput ||
-            !sceneSelect
-        ) {
-            return;
-        }
-
-        const dateValue = dateInput.value;
-        const timeValue = timeInput.value;
-        const artistValue = artistInput.value;
-        const genreValue = genreInput.value;
-        const sceneValue = sceneSelect.value;
-
-        if (!dateValue || !timeValue || !artistValue || !genreValue || !sceneValue) {
-            return;
-        }
-
-        const date = new Date(`${dateValue}T${timeValue}`);
-        const dateKey = date.toLocaleDateString("fr-FR", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-        }).toUpperCase();
-        const heureLabel = date.toLocaleTimeString("fr-FR", {
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-
-        let dayBlock = programmeList.querySelector(
-            `.programme-day[data-date="${dateKey}"]`,
-        ) as HTMLElement | null;
-
-        if (!dayBlock) {
-            dayBlock = document.createElement("div");
-            dayBlock.className = "programme-day";
-            dayBlock.dataset.date = String(dateKey);
-            dayBlock.innerHTML = `
-                <h2 class="font-corps font-bold text-marron-fonce text-lg mb-2">${dateKey}</h2>
-                <p class="font-corps text-marron-fonce/70 text-sm mb-4">${artistValue}</p>
-                <ul class="space-y-3"></ul>
-            `;
-            programmeList.appendChild(dayBlock);
-        }
-
-        const list = dayBlock.querySelector("ul");
-        if (!list) return;
-
-        const li = document.createElement("li");
-        li.className =
-            "programme-item flex items-start gap-2 font-corps text-marron-fonce";
-        li.dataset.scene = sceneValue;
-        li.dataset.genre = genreValue;
-        li.innerHTML = `
-            <span class="text-marron-fonce/60">•</span>
-            <div>
-                <span class="font-medium">${heureLabel}</span>
-                <span class="mx-2">—</span>
-                <span>Événement ajouté</span>
-                <span class="text-or-vieilli ml-1">${artistValue}</span>
-                <span class="text-marron-fonce/50 text-sm ml-2">@ ${sceneValue}</span>
-            </div>
-        `;
-
-        list.appendChild(li);
-
-        dateInput.value = "";
-        timeInput.value = "";
-        artistInput.value = "";
-        genreInput.value = "";
-        sceneSelect.value = "";
-
         applyFilters();
     });
 </script>

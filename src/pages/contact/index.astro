@@ -1,0 +1,227 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout>
+    <!-- Titre principal -->
+    <section class="pt-28 pb-4 bg-beige-claire">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full">
+                    <h1
+                        class="font-titre font-bold text-marron-fonce text-gros-titre md:text-5xl lg:text-6xl"
+                    >
+                        TOUT SAVOIR
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulaire de contact -->
+    <section class="section-sm bg-beige-claire round">
+        <div class="container">
+            <div class="grid-12">
+                <!-- Titre du formulaire -->
+                <div
+                    class="col-full md:col-span-8 md:col-start-1 lg:col-span-6 lg:col-start-4"
+                >
+                    <h2
+                        class="font-corps font-bold text-marron-fonce text-sous-titre uppercase tracking-wide mb-4"
+                    >
+                        Formulaire de contact
+                    </h2>
+                </div>
+
+                <!-- Formulaire centré sur grand écran -->
+                <div
+                    class="col-full md:col-span-8 md:col-start-1 lg:col-span-6 lg:col-start-4"
+                >
+                    <form
+                        id="contact-form"
+                        class="bg-beige rounded-[40px] p-6 md:p-8 lg:p-10"
+                    >
+                        <div class="space-y-4 md:space-y-5">
+                            <!-- Prénom et Nom en ligne sur tablette+ -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Prénom -->
+                                <div>
+                                    <label
+                                        for="prenom"
+                                        class="block font-corps text-marron-fonce text-sm mb-1"
+                                    >
+                                        Prénom
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="prenom"
+                                        name="prenom"
+                                        required
+                                        autocomplete="given-name"
+                                        class="w-full bg-beige-claire rounded-full px-5 py-3 font-corps text-marron-fonce text-sm border-none outline-none focus:ring-2 focus:ring-marron-fonce/20"
+                                    />
+                                </div>
+
+                                <!-- Nom -->
+                                <div>
+                                    <label
+                                        for="nom"
+                                        class="block font-corps text-marron-fonce text-sm mb-1"
+                                    >
+                                        Nom
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nom"
+                                        name="nom"
+                                        required
+                                        autocomplete="family-name"
+                                        class="w-full bg-beige-claire rounded-full px-5 py-3 font-corps text-marron-fonce text-sm border-none outline-none focus:ring-2 focus:ring-marron-fonce/20"
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- Objet -->
+                            <div>
+                                <label
+                                    for="objet"
+                                    class="block font-corps text-marron-fonce text-sm mb-1"
+                                >
+                                    Objet
+                                </label>
+                                <input
+                                    type="text"
+                                    id="objet"
+                                    name="objet"
+                                    required
+                                    class="w-full bg-beige-claire rounded-full px-5 py-3 font-corps text-marron-fonce text-sm border-none outline-none focus:ring-2 focus:ring-marron-fonce/20"
+                                />
+                            </div>
+
+                            <!-- E-mail -->
+                            <div>
+                                <label
+                                    for="email"
+                                    class="block font-corps text-marron-fonce text-sm mb-1"
+                                >
+                                    E-mail
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    required
+                                    autocomplete="email"
+                                    class="w-full bg-beige-claire rounded-full px-5 py-3 font-corps text-marron-fonce text-sm border-none outline-none focus:ring-2 focus:ring-marron-fonce/20"
+                                />
+                            </div>
+
+                            <!-- Message -->
+                            <div>
+                                <label
+                                    for="message"
+                                    class="block font-corps text-marron-fonce text-sm mb-1"
+                                >
+                                    Message
+                                </label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    rows="5"
+                                    required
+                                    class="w-full bg-beige-claire rounded-2xl px-5 py-4 font-corps text-marron-fonce text-sm border-none outline-none focus:ring-2 focus:ring-marron-fonce/20 resize-none"
+                                ></textarea>
+                            </div>
+
+                            <!-- Bouton Envoyer -->
+                            <div class="pt-4 flex justify-center">
+                                <button
+                                    type="submit"
+                                    class="btn-primary text-sous-titre uppercase tracking-wide px-12 py-3"
+                                >
+                                    Envoyer
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Message de succès -->
+                    <div
+                        id="success-message"
+                        class="hidden mt-4 bg-vert-sapin/10 border border-vert-sapin/30 rounded-2xl p-4"
+                        role="alert"
+                    >
+                        <p
+                            class="font-corps text-vert-sapin font-semibold text-sm"
+                        >
+                            Message envoyé avec succès !
+                        </p>
+                    </div>
+
+                    <!-- Message d'erreur -->
+                    <div
+                        id="error-message"
+                        class="hidden mt-4 bg-rouge-accent/10 border border-rouge-accent/30 rounded-2xl p-4"
+                        role="alert"
+                    >
+                        <p
+                            class="font-corps text-rouge-accent font-semibold text-sm"
+                        >
+                            Une erreur est survenue. Veuillez réessayer.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<script>
+    // Configuration PocketBase
+    const POCKETBASE_URL = "http://127.0.0.1:8090";
+    const COLLECTION_NAME = "contacts";
+
+    const form = document.getElementById("contact-form") as HTMLFormElement;
+    const successMessage = document.getElementById("success-message");
+    const errorMessage = document.getElementById("error-message");
+
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const data = {
+            prenom: formData.get("prenom"),
+            nom: formData.get("nom"),
+            objet: formData.get("objet"),
+            email: formData.get("email"),
+            message: formData.get("message"),
+        };
+
+        try {
+            const response = await fetch(
+                `${POCKETBASE_URL}/api/collections/${COLLECTION_NAME}/records`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                },
+            );
+
+            if (response.ok) {
+                form.reset();
+                successMessage?.classList.remove("hidden");
+                errorMessage?.classList.add("hidden");
+                setTimeout(() => successMessage?.classList.add("hidden"), 5000);
+            } else {
+                throw new Error("Erreur");
+            }
+        } catch (error) {
+            console.error("Erreur:", error);
+            errorMessage?.classList.remove("hidden");
+            successMessage?.classList.add("hidden");
+            setTimeout(() => errorMessage?.classList.add("hidden"), 5000);
+        }
+    });
+</script>

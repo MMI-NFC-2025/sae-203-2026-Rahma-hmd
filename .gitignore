@@ -30,3 +30,13 @@ pnpm-debug.log*
 **/auxiliary.db-wal
 **/data.db-shm
 **/data.db-wal
+
+# PocketBase
+pocketbase/pb_data/*
+!pocketbase/pb_data/types.d.ts
+pocketbase/pocketbase
+pocketbase/pocketbase.exe
+pocketbase/pb_data.zip
+pocketbase/CHANGELOG.md
+pocketbase/LICENSE.md
+pocketbase/pb_public

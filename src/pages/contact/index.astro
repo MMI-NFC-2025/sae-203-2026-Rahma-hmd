@@ -178,8 +178,8 @@ import Layout from "../../layouts/Layout.astro";
 
 <script>
     // Configuration PocketBase
-    const POCKETBASE_URL = "http://127.0.0.1:8090";
-    const COLLECTION_NAME = "contacts";
+    const POCKETBASE_URL = "https://festicloze.rahmaproject.fr";
+    const COLLECTION_NAME = "formulaire_contact";
 
     const form = document.getElementById("contact-form") as HTMLFormElement;
     const successMessage = document.getElementById("success-message");
@@ -190,11 +190,11 @@ import Layout from "../../layouts/Layout.astro";
 
         const formData = new FormData(form);
         const data = {
-            prenom: formData.get("prenom"),
-            nom: formData.get("nom"),
-            objet: formData.get("objet"),
-            email: formData.get("email"),
+            nom_expediteur: `${formData.get("prenom")} ${formData.get("nom")}`,
+            email_expediteur: formData.get("email"),
+            sujet: formData.get("objet"),
             message: formData.get("message"),
+            date_envoi: new Date().toISOString()
         };
 
         try {

@@ -1,0 +1,62 @@
+---
+// Card.astro - Card pour la programmation du festival
+interface Props {
+    jour: string;
+    jourSemaine: string;
+    date: string;
+    image: ImageMetadata;
+    titre: string;
+    sousTitre: string;
+    description: string;
+    href?: string;
+}
+
+const {
+    jour,
+    jourSemaine,
+    date,
+    image,
+    titre,
+    sousTitre,
+    description,
+    href = "/programmation",
+} = Astro.props;
+---
+
+<a
+    href={href}
+    class="group block bg-beige rounded-[4.75rem] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+>
+    <!-- En-tête avec jour/date -->
+    <p
+        class="font-corps font-bold text-marron-fonce text-sm tracking-wide text-center py-4 px-4"
+    >
+        {jour} - {jourSemaine} - {date}
+    </p>
+
+    <!-- Image avec coins arrondis -->
+    <div class="px-4 overflow-hidden">
+        <div class="rounded-2xl overflow-hidden">
+            <img
+                src={image.src}
+                alt={titre}
+                class="w-full h-48 md:h-52 object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+        </div>
+    </div>
+
+    <!-- Contenu texte -->
+    <div class="p-5 pt-4 text-center flex flex-col flex-grow">
+        <h3
+            class="font-titre text-marron-fonce text-xl md:text-2xl leading-tight mb-1"
+        >
+            {titre}
+        </h3>
+        <p class="font-titre text-marron-fonce text-lg md:text-xl mb-4">
+            {sousTitre}
+        </p>
+        <p class="font-corps text-marron-fonce/60 text-sm italic mt-auto">
+            {description}
+        </p>
+    </div>
+</a>

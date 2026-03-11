@@ -1,0 +1,290 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import {
+    getRepresentations,
+    getScenesByName,
+} from "../../../backend/backend.mjs";
+
+import heroImage from "../../assets/images/festival.avif";
+
+// Récupérer les représentations et scènes depuis PocketBase
+const representations = await getRepresentations();
+const scenes = await getScenesByName();
+
+// Grouper les représentations par date
+const representationsByDate = representations.reduce((acc, rep) => {
+    const date = new Date(rep.date_heure);
+    const dateKey = date
+        .toLocaleDateString("fr-FR", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+        })
+        .toUpperCase();
+
+    if (!acc[dateKey]) {
+        acc[dateKey] = {
+            date: date,
+            events: [],
+        };
+    }
+
+    acc[dateKey].events.push({
+        heure: date.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+        }),
+        titre: rep.titre_representation,
+        artiste: rep.expand?.artiste,
+        scene: rep.expand?.scene,
+    });
+
+    return acc;
+}, {});
+
+// Trier par date
+const sortedDates = Object.entries(representationsByDate).sort(
+    (a, b) => a[1].date.getTime() - b[1].date.getTime(),
+);
+
+// Extraire les genres uniques des artistes
+const genres = [
+    ...new Set(
+        representations
+            .map((rep) => rep.expand?.artiste?.genre)
+            .filter(Boolean),
+    ),
+];
+---
+
+<Layout>
+    <!-- Hero Section -->
+    <section class="relative h-[40vh] md:h-[50vh]">
+        <Image
+            src={heroImage}
+            alt="Programmation Festicloze"
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+        />
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-marron-fonce/60 to-transparent"
+        >
+        </div>
+        <div class="absolute inset-0 flex items-end">
+            <div class="container pb-12 md:pb-16">
+                <h1
+                    class="font-titre text-beige-claire text-4xl md:text-5xl lg:text-6xl tracking-wide drop-shadow-lg"
+                >
+                    PROGRAMMATION
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtres -->
+    <section class="py-8 bg-beige-claire border-b border-beige">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full">
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <span
+                            class="font-corps font-bold text-marron-fonce text-sm"
+                            >Filtrer par :</span
+                        >
+
+                        <!-- Filtre par scène -->
+                        <select
+                            id="filter-scene"
+                            class="bg-beige rounded-full px-4 py-2 font-corps text-marron-fonce text-sm border-none outline-none cursor-pointer"
+                        >
+                            <option value="">Toutes les scènes</option>
+                            {
+                                scenes.map((scene) => (
+                                    <option value={scene.id}>
+                                        {scene.nom.trim()}
+                                    </option>
+                                ))
+                            }
+                        </select>
+
+                        <!-- Filtre par genre -->
+                        <select
+                            id="filter-genre"
+                            class="bg-beige rounded-full px-4 py-2 font-corps text-marron-fonce text-sm border-none outline-none cursor-pointer"
+                        >
+                            <option value="">Tous les genres</option>
+                            {
+                                genres.map((genre) => (
+                                    <option value={genre}>{genre}</option>
+                                ))
+                            }
+                        </select>
+
+                        <!-- Filtre par horaire -->
+                        <input
+                            type="time"
+                            id="filter-horaire"
+                            class="bg-beige rounded-full px-4 py-2 font-corps text-marron-fonce text-sm border-none outline-none cursor-pointer"
+                        />
+                        <span class="text-marron-fonce text-xs"
+                            >(Heure de début)</span
+                        >
+
+                        <!-- Bouton reset -->
+                        <button
+                            id="reset-filters"
+                            class="text-rouge-accent font-corps text-sm underline hover:no-underline"
+                        >
+                            Réinitialiser
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programme par jour -->
+    <section class="section bg-beige-claire">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full lg:col-span-8 lg:col-start-3">
+                    <div class="space-y-12" id="programme-list">
+                        {
+                            sortedDates.map(([dateKey, dayData]) => (
+                                <div class="programme-day" data-date={dateKey}>
+                                    <h2 class="font-corps font-bold text-marron-fonce text-lg mb-2">
+                                        {dateKey}
+                                    </h2>
+                                    <p class="font-corps text-marron-fonce/70 text-sm mb-4">
+                                        {dayData.events[0]?.titre?.split(
+                                            " ",
+                                        )[0] || "Événement"}
+                                    </p>
+
+                                    <ul class="space-y-3">
+                                        {dayData.events.map((event) => (
+                                            <li
+                                                class="programme-item flex items-start gap-2 font-corps text-marron-fonce"
+                                                data-scene={
+                                                    event.scene?.id || ""
+                                                }
+                                                data-genre={
+                                                    event.artiste?.genre || ""
+                                                }
+                                            >
+                                                <span class="text-marron-fonce/60">
+                                                    •
+                                                </span>
+                                                <div>
+                                                    <span class="font-medium">
+                                                        {event.heure}
+                                                    </span>
+                                                    <span class="mx-2">—</span>
+                                                    <span>{event.titre}</span>
+                                                    {event.artiste && (
+                                                        <span class="text-or-vieilli ml-1">
+                                                            {event.artiste.nom}
+                                                        </span>
+                                                    )}
+                                                    {event.scene && (
+                                                        <span class="text-marron-fonce/50 text-sm ml-2">
+                                                            @{" "}
+                                                            {event.scene.nom.trim()}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))
+                        }
+                    </div>
+
+                    <!-- Message si aucun résultat -->
+                    <div id="no-results" class="hidden text-center py-12">
+                        <p class="font-corps text-marron-fonce/60">
+                            Aucun événement ne correspond à vos critères.
+                        </p>
+                    </div>
+
+                    <!-- Bouton PDF -->
+                    <div class="mt-12 flex justify-center">
+                        <a
+                            href="/src/assets/prog.pdf"
+                            download
+                            class="btn-primary text-sous-titre uppercase tracking-wide px-8 py-4"
+                        >
+                            Programme complet en PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<script>
+    const filterScene = document.getElementById("filter-scene");
+    const filterGenre = document.getElementById("filter-genre");
+    const filterHoraire = document.getElementById("filter-horaire");
+    const resetButton = document.getElementById("reset-filters");
+    const programmeItems = document.querySelectorAll(".programme-item");
+    const programmeDays = document.querySelectorAll(".programme-day");
+    const noResults = document.getElementById("no-results");
+
+    function applyFilters() {
+        const sceneValue = filterScene?.value || "";
+        const genreValue = filterGenre?.value || "";
+        const horaireValue = filterHoraire?.value || "";
+
+        let visibleCount = 0;
+
+        programmeItems.forEach((item) => {
+            const itemScene = item.getAttribute("data-scene") || "";
+            const itemGenre = item.getAttribute("data-genre") || "";
+            const itemHoraire =
+                item.querySelector(".font-medium")?.textContent || "";
+
+            const matchScene = !sceneValue || itemScene === sceneValue;
+            const matchGenre = !genreValue || itemGenre === genreValue;
+            const matchHoraire = !horaireValue || itemHoraire === horaireValue;
+
+            if (matchScene && matchGenre && matchHoraire) {
+                (item as HTMLElement).style.display = "";
+                visibleCount++;
+            } else {
+                (item as HTMLElement).style.display = "none";
+            }
+        });
+
+        // Cacher les jours sans événements visibles
+        programmeDays.forEach((day) => {
+            const visibleItems = day.querySelectorAll(
+                '.programme-item:not([style*="display: none"])',
+            );
+            if (visibleItems.length === 0) {
+                (day as HTMLElement).style.display = "none";
+            } else {
+                (day as HTMLElement).style.display = "";
+            }
+        });
+
+        // Afficher message si aucun résultat
+        if (noResults) {
+            noResults.classList.toggle("hidden", visibleCount > 0);
+        }
+    }
+
+    filterScene?.addEventListener("change", applyFilters);
+    filterGenre?.addEventListener("change", applyFilters);
+    filterHoraire?.addEventListener("change", applyFilters);
+
+    resetButton?.addEventListener("click", () => {
+        if (filterScene) filterScene.value = "";
+        if (filterGenre) filterGenre.value = "";
+        if (filterHoraire) filterHoraire.value = "";
+        applyFilters();
+    });
+</script>

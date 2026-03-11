@@ -1,0 +1,183 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import {
+    getArtisteById,
+    getRepresentations,
+} from "../../../backend/backend.mjs";
+
+import heroImage from "../../assets/images/festival.avif";
+
+const { id } = Astro.params;
+
+const artiste = await getArtisteById(id);
+
+const allRepresentations = await getRepresentations();
+const representations = allRepresentations.filter(
+    (rep) => rep.expand?.artiste?.id === id,
+);
+
+const firstRepresentation = representations[0];
+const scenes = [
+    ...new Map(
+        representations
+            .filter((rep) => rep.expand?.scene)
+            .map((rep) => [rep.expand.scene.id, rep.expand.scene]),
+    ).values(),
+];
+
+const datesFormatees = representations.map((rep) => {
+    const date = new Date(rep.date_heure);
+    return {
+        brut: rep.date_heure,
+        label: date.toLocaleDateString("fr-FR", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        }),
+        heure: date.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+        }),
+    };
+});
+---
+
+<Layout>
+    <!-- Hero artiste -->
+    <section class="relative h-[35vh] md:h-[45vh]">
+        <Image
+            src={heroImage}
+            alt={artiste?.nom || "Artiste"}
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+        />
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-marron-fonce/70 to-transparent"
+        >
+        </div>
+        <div class="absolute inset-0 flex items-end">
+            <div class="container pb-10 md:pb-14">
+                <h1
+                    class="font-titre text-beige-claire text-3xl md:text-4xl lg:text-5xl tracking-wide drop-shadow-lg"
+                >
+                    {artiste?.nom || "Artiste"}
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-beige-claire">
+        <div class="container">
+            <div class="grid-12 gap-y-10 lg:gap-12">
+                <!-- Colonne principale -->
+                <div class="col-full lg:col-span-7 space-y-8">
+                    <!-- Photo principale -->
+                    <div
+                        class="rounded-3xl overflow-hidden shadow-xl bg-marron-fonce/5"
+                    >
+                        {artiste?.photo && (
+                            <img
+                                src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${artiste.photo}`}
+                                alt={artiste.nom}
+                                class="w-full h-72 md:h-96 object-cover"
+                                loading="lazy"
+                            />
+                        )}
+                    </div>
+
+                    <!-- Description -->
+                    {artiste?.description && (
+                        <div class="space-y-3">
+                            <h2
+                                class="font-corps font-bold text-marron-fonce text-xl md:text-2xl"
+                            >
+                                À propos de l'artiste
+                            </h2>
+                            <p
+                                class="font-corps text-marron-fonce/90 leading-relaxed text-base md:text-lg"
+                            >
+                                {artiste.description}
+                            </p>
+                        </div>
+                    )}
+
+                    <!-- Galerie photo -->
+                    {Array.isArray(artiste?.galerie) &&
+                        artiste.galerie.length > 0 && (
+                            <div class="space-y-4">
+                                <h2
+                                    class="font-corps font-bold text-marron-fonce text-xl md:text-2xl"
+                                >
+                                    Galerie photo
+                                </h2>
+                                <div class="relative">
+                                    <div
+                                        class="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory"
+                                    >
+                                        {artiste.galerie.map((photo) => (
+                                            <div
+                                                class="min-w-[70%] md:min-w-[50%] lg:min-w-[40%] rounded-3xl overflow-hidden shadow-lg bg-marron-fonce/5 snap-start"
+                                            >
+                                                <img
+                                                    src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${photo}`}
+                                                    alt={artiste.nom}
+                                                    class="w-full h-48 md:h-64 object-cover"
+                                                    loading="lazy"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                </div>
+
+                <!-- Colonne infos pratiques -->
+                <aside class="col-full lg:col-span-5 space-y-8">
+                    <!-- Dates de représentation -->
+                    {datesFormatees.length > 0 && (
+                        <div
+                            class="bg-marron-fonce text-beige-claire rounded-3xl p-6 space-y-3 shadow-lg"
+                        >
+                            <h2
+                                class="font-corps font-bold text-sous-titre text-lg md:text-xl uppercase tracking-wide"
+                            >
+                                Dates de représentation
+                            </h2>
+                            <ul class="space-y-2 font-corps text-sm md:text-base">
+                                {datesFormatees.map((d) => (
+                                    <li>
+                                        <span class="block">{d.label}</span>
+                                        <span class="block text-beige/80">
+                                            {d.heure}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    <!-- Scènes -->
+                    {scenes.length > 0 && (
+                        <div
+                            class="bg-beige rounded-3xl p-6 space-y-3 shadow-md"
+                        >
+                            <h2
+                                class="font-corps font-bold text-marron-fonce text-lg md:text-xl uppercase tracking-wide"
+                            >
+                                Scènes
+                            </h2>
+                            <ul class="space-y-1 font-corps text-marron-fonce">
+                                {scenes.map((scene) => (
+                                    <li>{scene.nom}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </aside>
+            </div>
+        </div>
+    </section>
+</Layout>

@@ -25,20 +25,27 @@ export async function getArtistes() {
 }
 
 // Fonction qui retourne la liste de tous les artistes triés par date de représentation
+// avec, pour chacun, sa première date de représentation et la scène correspondante
 export async function getArtistesByDate() {
     try {
-        // Récupère les représentations triées par date avec l'artiste associé
+        // Récupère les représentations triées par date avec l'artiste et la scène associés
         const representations = await pb.collection("representation").getFullList({
             sort: "date_heure",
-            expand: "artiste"
+            expand: "artiste,scene"
         });
+
         // Extrait les artistes des représentations (en évitant les doublons)
+        // et garde pour chacun la première date + scène
         const artistesMap = new Map();
         for (const rep of representations) {
             if (rep.expand?.artiste) {
                 const artiste = rep.expand.artiste;
                 if (!artistesMap.has(artiste.id)) {
-                    artistesMap.set(artiste.id, artiste);
+                    artistesMap.set(artiste.id, {
+                        ...artiste,
+                        firstDate: rep.date_heure,
+                        firstScene: rep.expand?.scene || null,
+                    });
                 }
             }
         }

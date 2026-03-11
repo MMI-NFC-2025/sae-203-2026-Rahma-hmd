@@ -2,36 +2,91 @@
 import Layout from "../../layouts/Layout.astro";
 import { getArtistesByDate } from "../../../backend/backend.mjs";
 
-const artistes = await getArtistesByDate();
+const rawArtistes = await getArtistesByDate();
+
+const artistes = rawArtistes.map((artiste) => {
+    if (!artiste.firstDate) return artiste;
+
+    const date = new Date(artiste.firstDate);
+
+    return {
+        ...artiste,
+        _dateLabel: date.toLocaleDateString("fr-FR", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+        }),
+        _timeLabel: date.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+        }),
+    };
+});
 ---
 
 <Layout>
-    <section class="py-8 bg-beige-claire min-h-screen">
+    <!-- Titre principal -->
+    <section class="py-10 md:py-12 bg-beige-claire border-b border-beige">
         <div class="container">
-            <h1
-                class="font-titre text-marron-fonce text-4xl mb-8 text-center tracking-wide"
-            >
-                NOS ARTISTES
-            </h1>
-            <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-            >
-                {
-                    artistes.map((artiste) => (
-                        <div class="bg-marron-fonce rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transition-transform hover:-translate-y-1 hover:shadow-2xl w-full">
-                            <div class="w-32 h-32 mb-4 flex items-center justify-center">
-                                <img
-                                    src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${artiste.photo}`}
-                                    alt={artiste.nom}
-                                    class="w-28 h-28 rounded-full object-cover border-4 border-beige shadow-md"
-                                />
-                            </div>
-                            <div class="font-titre text-beige-claire text-lg text-center truncate w-full uppercase tracking-wide">
-                                {artiste.nom}
-                            </div>
-                        </div>
-                    ))
-                }
+            <div class="grid-12">
+                <div class="col-full lg:col-span-8 lg:col-start-3">
+                    <h1
+                        class="font-titre text-marron-fonce text-4xl md:text-5xl lg:text-6xl tracking-wide"
+                    >
+                        NOS ARTISTES
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Liste des artistes -->
+    <section class="py-12 bg-beige-claire min-h-screen">
+        <div class="container">
+            <div class="grid-12">
+                <div class="col-full lg:col-span-8 lg:col-start-3">
+                    <div class="space-y-5 md:space-y-6">
+                        {
+                            artistes.map((artiste) => (
+                                <a
+                                    href={`/artistes/${artiste.id}`}
+                                    class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-or-vieilli focus-visible:ring-offset-2 focus-visible:ring-offset-beige-claire rounded-3xl"
+                                >
+                                    <article
+                                        class="bg-marron-fonce rounded-3xl shadow-lg overflow-hidden w-full transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl"
+                                    >
+                                        <div class="w-full">
+                                            <img
+                                                src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${artiste.photo}`}
+                                                alt={artiste.nom}
+                                                loading="lazy"
+                                                class="w-full h-44 md:h-56 object-cover"
+                                            />
+                                        </div>
+
+                                        <div class="px-6 py-5 space-y-1 text-left">
+                                            <h2 class="font-titre text-beige-claire text-base md:text-lg tracking-wide uppercase">
+                                                {artiste.nom}
+                                            </h2>
+
+                                            {artiste._dateLabel && (
+                                                <p class="font-corps text-beige/90 text-sm md:text-base">
+                                                    {artiste._dateLabel}
+                                                </p>
+                                            )}
+
+                                            {artiste.firstScene && (
+                                                <p class="font-corps text-beige-claire/80 text-sm md:text-base">
+                                                    {artiste.firstScene.nom}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </article>
+                                </a>
+                            ))
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </section>

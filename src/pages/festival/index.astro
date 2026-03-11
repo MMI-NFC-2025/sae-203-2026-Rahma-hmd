@@ -1,0 +1,96 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+import heroImage from '../../assets/images/festival.avif';
+import equipeImage from '../../assets/images/theatre.avif';
+---
+
+<Layout>
+    <!-- Hero Section -->
+    <section class="relative h-[60vh] min-h-100">
+        <Image 
+            src={heroImage}
+            alt="Le Festival Festicloze"
+            class="absolute inset-0 w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 flex items-end p-6 md:p-10">
+            <h1 class="font-titre text-beige-claire text-3xl md:text-4xl lg:text-5xl tracking-wide">
+                LE FESTIVAL
+            </h1>
+        </div>
+    </section>
+
+    <!-- L'Esprit Festicloze -->
+    <section class="py-12 px-6 bg-beige-claire">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="font-corps font-bold text-marron-fonce text-xl mb-6">
+                L'Esprit Festicloze
+            </h2>
+            <p class="font-corps text-marron-fonce leading-relaxed text-justify">
+                Né au majestueux Temple Saint-Martin, Festicloze célèbre l'opéra baroque au cœur des Lumières de Montbéliard. Concerts, danses et rencontres s'unissent pour offrir une expérience unique, mêlant excellence musicale, patrimoine historique et magie de Noël.
+            </p>
+        </div>
+    </section>
+
+    <!-- Image de la section -->
+    <section class="bg-beige-claire px-6 pb-12">
+        <div class="max-w-3xl mx-auto">
+            <div class="rounded-2xl overflow-hidden">
+                <Image 
+                    src={equipeImage}
+                    alt="Représentation baroque"
+                    class="w-full h-64 md:h-80 object-cover"
+                />
+            </div>
+        </div>
+    </section>
+
+    <!-- Équipe -->
+    <section class="py-12 px-6 bg-beige-claire">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="font-corps font-bold text-marron-fonce text-xl mb-6">
+                Équipe
+            </h2>
+            <p class="font-corps text-marron-fonce leading-relaxed mb-6 text-justify">
+                Orchestré par une équipe passionnée, Festicloze s'appuie sur une régie technique d'experts. De la direction artistique à la mise en lumière, tous s'unissent en coulisses pour garantir une qualité de spectacle irréprochable.
+            </p>
+            <ul class="font-corps text-marron-fonce space-y-3">
+                <li class="flex items-start gap-2">
+                    <span class="text-marron-fonce">•</span>
+                    <span>Sarah Monteverdi (Directrice Artistique),</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="text-marron-fonce">•</span>
+                    <span>L'Atelier des Lumières (Scénographie)</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Valeurs, Thématique, Engagements -->
+    <section class="py-12 px-6 bg-beige-claire">
+        <div class="max-w-3xl mx-auto space-y-8">
+            <!-- Valeurs -->
+            <div>
+                <p class="font-corps text-marron-fonce leading-relaxed">
+                    <span class="font-bold">Valeurs</span> : Respect du patrimoine et transmission du baroque à tous les publics.
+                </p>
+            </div>
+
+            <!-- Thématique -->
+            <div>
+                <p class="font-corps text-marron-fonce leading-relaxed">
+                    <span class="font-bold">Thématique 2025</span> : La magie de Noël sublime les artistes dans une ambiance chaleureuse.
+                </p>
+            </div>
+
+            <!-- Engagements -->
+            <div>
+                <p class="font-corps text-marron-fonce leading-relaxed">
+                    <span class="font-bold">Engagements</span> : Un événement éco-responsable, inclusif et ancré dans le territoire local.
+                </p>
+            </div>
+        </div>
+    </section>
+</Layout>

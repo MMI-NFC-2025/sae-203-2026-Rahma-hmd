@@ -1,0 +1,360 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout>
+    <!-- Titre principal -->
+    <section class="pt-28 pb-8 bg-beige-claire">
+        <div class="container">
+            <h1
+                class="font-titre text-marron-fonce text-4xl md:text-5xl lg:text-6xl tracking-wide"
+            >
+                INFOS PRATIQUES
+            </h1>
+        </div>
+    </section>
+
+    <!-- Contenu principal en grille horizontale -->
+    <section class="pb-16 bg-beige-claire">
+        <div class="container">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+                <!-- Colonne gauche : Tarifs + Comment venir -->
+                <div class="space-y-12">
+                    <!-- Tarifs Billets -->
+                    <div>
+                        <h2
+                            class="font-corps font-bold text-marron-fonce text-lg mb-1"
+                        >
+                            Tarifs Billets
+                        </h2>
+                        <p class="font-corps text-marron-fonce/70 text-sm mb-6">
+                            • gratuit pour les enfants de moins de 10 ans
+                        </p>
+
+                        <div class="space-y-4">
+                            <!-- Billet 1 soirée -->
+                            <div class="bg-beige rounded-[2.5rem] px-6 py-5">
+                                <h3
+                                    class="font-corps font-bold text-marron-fonce text-base mb-3"
+                                >
+                                    Billet pour 1 soirée
+                                </h3>
+                                <div class="flex items-center gap-4">
+                                    <span
+                                        class="font-corps font-bold text-marron-fonce text-xl"
+                                        >30 €</span
+                                    >
+                                    <a
+                                        href="#"
+                                        class="btn-primary text-sm px-5 py-2"
+                                    >
+                                        Acheter
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Billet 2 soirées -->
+                            <div class="bg-beige rounded-[2.5rem] px-6 py-5">
+                                <h3
+                                    class="font-corps font-bold text-marron-fonce text-base mb-3"
+                                >
+                                    Billet pour 2 soirées
+                                </h3>
+                                <div class="flex items-center gap-4">
+                                    <span
+                                        class="font-corps font-bold text-marron-fonce text-xl"
+                                        >50 €</span
+                                    >
+                                    <a
+                                        href="#"
+                                        class="btn-primary text-sm px-5 py-2"
+                                    >
+                                        Acheter
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Billet 4 soirées -->
+                            <div class="bg-beige rounded-[2.5rem] px-6 py-5">
+                                <h3
+                                    class="font-corps font-bold text-marron-fonce text-base mb-3"
+                                >
+                                    Billet pour 4 soirées
+                                </h3>
+                                <div class="flex items-center gap-4">
+                                    <span
+                                        class="font-corps font-bold text-marron-fonce text-xl"
+                                        >80 €</span
+                                    >
+                                    <a
+                                        href="#"
+                                        class="btn-primary text-sm px-5 py-2"
+                                    >
+                                        Acheter
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comment venir -->
+                    <div>
+                        <h2
+                            class="font-corps font-bold text-marron-fonce text-lg mb-6"
+                        >
+                            COMMENT VENIR ?
+                        </h2>
+
+                        <div class="space-y-6">
+                            <!-- En Voiture -->
+                            <div>
+                                <h3
+                                    class="font-corps font-bold text-marron-fonce text-base mb-2"
+                                >
+                                    En Voiture
+                                </h3>
+                                <p
+                                    class="font-corps text-marron-fonce/80 leading-relaxed text-sm"
+                                >
+                                    Parking gratuit à disposition des
+                                    festivaliers. Accès facilité et fléché
+                                    depuis les entrées de ville.
+                                </p>
+                            </div>
+
+                            <!-- En Vélo -->
+                            <div>
+                                <h3
+                                    class="font-corps font-bold text-marron-fonce text-base mb-2"
+                                >
+                                    En Vélo
+                                </h3>
+                                <p
+                                    class="font-corps text-marron-fonce/80 leading-relaxed text-sm"
+                                >
+                                    Parc à vélos sécurisé à l'entrée du site.
+                                    Service + : Une équipe technique est
+                                    présente sur place pour les petites
+                                    réparations d'urgence.
+                                </p>
+                            </div>
+
+                            <!-- Covoiturage -->
+                            <div>
+                                <h3
+                                    class="font-corps font-bold text-marron-fonce text-base mb-2"
+                                >
+                                    Covoiturage (BlaBlaCar)
+                                </h3>
+                                <p
+                                    class="font-corps text-marron-fonce/80 leading-relaxed text-sm"
+                                >
+                                    Pour partager la route, recherchez le
+                                    mot-clé unique "Festicloze" sur
+                                    l'application BlaBlaCar.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colonne droite : FAQ dans une card -->
+                <div>
+                    <div class="bg-marron-fonce rounded-[2rem] p-6 md:p-8">
+                        <h2
+                            class="font-corps font-bold text-beige-claire text-lg mb-6"
+                        >
+                            FAQ
+                        </h2>
+
+                        <div class="space-y-3">
+                            <!-- Question 1 -->
+                            <div class="accordion-item">
+                                <button
+                                    class="accordion-button w-full bg-beige-claire rounded-full px-5 py-3.5 flex justify-between items-center text-left hover:bg-beige transition-all duration-300"
+                                    aria-expanded="false"
+                                >
+                                    <span
+                                        class="font-corps text-marron-fonce text-sm"
+                                        >Où se situe exactement le festival ?</span
+                                    >
+                                    <svg
+                                        class="accordion-icon w-4 h-4 text-marron-fonce transition-transform duration-500 ease-out shrink-0 ml-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div
+                                    class="accordion-content grid grid-rows-[0fr] transition-all duration-500 ease-out"
+                                >
+                                    <div class="overflow-hidden">
+                                        <div
+                                            class="px-5 py-4 bg-marron-fonce/10 rounded-b-2xl"
+                                        >
+                                            <p
+                                                class="font-corps text-beige-claire leading-relaxed text-sm"
+                                            >
+                                                Le festival se déroule au Temple
+                                                Saint-Martin de Montbéliard,
+                                                situé au cœur du centre
+                                                historique de la ville.
+                                                L'adresse exacte est : Place
+                                                Saint-Martin, 25200 Montbéliard.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Question 2 -->
+                            <div class="accordion-item">
+                                <button
+                                    class="accordion-button w-full bg-beige-claire rounded-full px-5 py-3.5 flex justify-between items-center text-left hover:bg-beige transition-all duration-300"
+                                    aria-expanded="false"
+                                >
+                                    <span
+                                        class="font-corps text-marron-fonce text-sm"
+                                        >Le festival est-il accessible aux
+                                        familles ?</span
+                                    >
+                                    <svg
+                                        class="accordion-icon w-4 h-4 text-marron-fonce transition-transform duration-500 ease-out shrink-0 ml-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div
+                                    class="accordion-content grid grid-rows-[0fr] transition-all duration-500 ease-out"
+                                >
+                                    <div class="overflow-hidden">
+                                        <div
+                                            class="px-5 py-4 bg-marron-fonce/10 rounded-b-2xl"
+                                        >
+                                            <p
+                                                class="font-corps text-beige-claire leading-relaxed text-sm"
+                                            >
+                                                Absolument ! Le festival est
+                                                conçu pour accueillir tous les
+                                                publics. L'entrée est gratuite
+                                                pour les enfants de moins de 10
+                                                ans. Des animations spéciales
+                                                sont prévues pour les plus
+                                                jeunes.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Question 3 -->
+                            <div class="accordion-item">
+                                <button
+                                    class="accordion-button w-full bg-beige-claire rounded-full px-5 py-3.5 flex justify-between items-center text-left hover:bg-beige transition-all duration-300"
+                                    aria-expanded="false"
+                                >
+                                    <span
+                                        class="font-corps text-marron-fonce text-sm"
+                                        >Y a-t-il de la restauration sur place ?</span
+                                    >
+                                    <svg
+                                        class="accordion-icon w-4 h-4 text-marron-fonce transition-transform duration-500 ease-out shrink-0 ml-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div
+                                    class="accordion-content grid grid-rows-[0fr] transition-all duration-500 ease-out"
+                                >
+                                    <div class="overflow-hidden">
+                                        <div
+                                            class="px-5 py-4 bg-marron-fonce/10 rounded-b-2xl"
+                                        >
+                                            <p
+                                                class="font-corps text-beige-claire leading-relaxed text-sm"
+                                            >
+                                                Oui, un bar hivernal est
+                                                installé sur le site. Boissons
+                                                chaudes, spécialités locales et
+                                                douceurs de Noël vous attendent
+                                                !
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .accordion-content.open {
+        grid-template-rows: 1fr;
+    }
+</style>
+
+<script>
+    document.querySelectorAll(".accordion-button").forEach((button) => {
+        button.addEventListener("click", () => {
+            const item = button.closest(".accordion-item");
+            if (!item) return;
+
+            const content = item.querySelector(".accordion-content");
+            const icon = button.querySelector(".accordion-icon");
+            const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+            // Fermer tous les autres accordéons
+            document
+                .querySelectorAll(".accordion-item")
+                .forEach((otherItem) => {
+                    if (otherItem !== item) {
+                        const otherContent =
+                            otherItem.querySelector(".accordion-content");
+                        const otherButton =
+                            otherItem.querySelector(".accordion-button");
+                        const otherIcon =
+                            otherItem.querySelector(".accordion-icon");
+                        if (otherContent) otherContent.classList.remove("open");
+                        if (otherButton)
+                            otherButton.setAttribute("aria-expanded", "false");
+                        if (otherIcon) otherIcon.classList.remove("rotate-180");
+                    }
+                });
+
+            // Toggle l'accordéon actuel avec animation
+            if (isExpanded) {
+                if (content) content.classList.remove("open");
+                button.setAttribute("aria-expanded", "false");
+                if (icon) icon.classList.remove("rotate-180");
+            } else {
+                if (content) content.classList.add("open");
+                button.setAttribute("aria-expanded", "true");
+                if (icon) icon.classList.add("rotate-180");
+            }
+        });
+    });
+</script>

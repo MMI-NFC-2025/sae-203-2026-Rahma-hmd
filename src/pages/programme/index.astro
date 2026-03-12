@@ -4,13 +4,15 @@ import { Image } from "astro:assets";
 import {
     getRepresentations,
     getScenesByName,
+    getArtistes,
 } from "../../../backend/backend.mjs";
 
 import heroImage from "../../assets/images/festival.avif";
 
-// Récupérer les représentations et scènes depuis PocketBase
+// Récupérer les représentations, scènes et artistes depuis PocketBase
 const representations = await getRepresentations();
 const scenes = await getScenesByName();
+const artistes = await getArtistes();
 
 // Grouper les représentations par date
 const representationsByDate = representations.reduce((acc, rep) => {
@@ -48,14 +50,8 @@ const sortedDates = Object.entries(representationsByDate).sort(
     (a, b) => a[1].date.getTime() - b[1].date.getTime(),
 );
 
-// Extraire les genres uniques des artistes
-const genres = [
-    ...new Set(
-        representations
-            .map((rep) => rep.expand?.artiste?.genre)
-            .filter(Boolean),
-    ),
-];
+// Genres fixes depuis PocketBase
+const genres = ["Classique", "Jazz"];
 ---
 
 <Layout>
@@ -144,92 +140,125 @@ const genres = [
         </div>
     </section>
 
-    <!-- Formulaire ajout d'événement -->
+    <!-- Accordéon Formulaire ajout d'événement -->
     <section class="section bg-beige-claire border-b border-beige/60">
         <div class="container">
             <div class="grid-12">
                 <div class="col-full lg:col-span-8 lg:col-start-3">
-                    <h2
-                        class="font-corps font-bold text-marron-fonce text-xl md:text-2xl mb-4"
+                    <button
+                        id="toggle-form"
+                        class="btn-primary mb-4 px-6 py-2 text-sous-titre uppercase tracking-wide"
                     >
-                        Ajouter un événement
-                    </h2>
-                    <form
-                        id="add-event-form"
-                        class="grid gap-4 md:grid-cols-2 font-corps text-sm md:text-base"
-                    >
-                        <div class="flex flex-col gap-1">
-                            <label for="event-date" class="text-marron-fonce"
-                                >Date</label
-                            >
-                            <input
-                                id="event-date"
-                                type="date"
-                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
-                                required
-                            />
+                        <span id="toggle-form-label">Ajouter un événement</span>
+                    </button>
+                    <div id="form-accordion" style="display: none;">
+                        <h2
+                            class="font-corps font-bold text-marron-fonce text-xl md:text-2xl mb-4"
+                        >
+                            Formulaire d'ajout
+                        </h2>
+                        <form
+                            id="add-event-form"
+                            class="grid gap-4 md:grid-cols-2 font-corps text-sm md:text-base"
+                        >
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    for="event-date"
+                                    class="text-marron-fonce">Date</label
+                                >
+                                <input
+                                    id="event-date"
+                                    type="date"
+                                    class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                    required
+                                />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    for="event-time"
+                                    class="text-marron-fonce">Heure</label
+                                >
+                                <input
+                                    id="event-time"
+                                    type="time"
+                                    class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                    required
+                                />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    for="event-artist"
+                                    class="text-marron-fonce">Artiste</label
+                                >
+                                <select
+                                    id="event-artist"
+                                    class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                    required
+                                >
+                                    <option value="">Choisir un artiste</option>
+                                    {
+                                        artistes.map((artiste) => (
+                                            <option value={artiste.id}>
+                                                {artiste.nom}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    for="event-genre"
+                                    class="text-marron-fonce">Genre</label
+                                >
+                                <select
+                                    id="event-genre"
+                                    class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                    required
+                                >
+                                    <option value="">Choisir un genre</option>
+                                    {
+                                        genres.map((genre) => (
+                                            <option value={genre}>
+                                                {genre}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-1 md:col-span-2">
+                                <label
+                                    for="event-scene"
+                                    class="text-marron-fonce">Scène</label
+                                >
+                                <select
+                                    id="event-scene"
+                                    class="bg-beige rounded-full px-4 py-2 border-none outline-none"
+                                    required
+                                >
+                                    <option value="">Choisir une scène</option>
+                                    {
+                                        scenes.map((scene) => (
+                                            <option value={scene.id}>
+                                                {scene.nom.trim()}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            <div class="md:col-span-2 flex justify-end">
+                                <button
+                                    type="submit"
+                                    class="btn-primary px-6 py-2 text-sous-titre uppercase tracking-wide"
+                                    >Ajouter</button
+                                >
+                            </div>
+                        </form>
+                        <div
+                            id="form-message"
+                            class="mt-4 text-center text-marron-fonce"
+                        >
                         </div>
-                        <div class="flex flex-col gap-1">
-                            <label for="event-time" class="text-marron-fonce"
-                                >Heure</label
-                            >
-                            <input
-                                id="event-time"
-                                type="time"
-                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
-                                required
-                            />
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <label for="event-artist" class="text-marron-fonce"
-                                >Nom de l'artiste</label
-                            >
-                            <input
-                                id="event-artist"
-                                type="text"
-                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
-                                required
-                            />
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <label for="event-genre" class="text-marron-fonce"
-                                >Genre</label
-                            >
-                            <input
-                                id="event-genre"
-                                type="text"
-                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
-                                required
-                            />
-                        </div>
-                        <div class="flex flex-col gap-1 md:col-span-2">
-                            <label for="event-scene" class="text-marron-fonce"
-                                >Scène</label
-                            >
-                            <select
-                                id="event-scene"
-                                class="bg-beige rounded-full px-4 py-2 border-none outline-none"
-                                required
-                            >
-                                <option value="">Choisir une scène</option>
-                                {
-                                    scenes.map((scene) => (
-                                        <option value={scene.nom.trim()}>
-                                            {scene.nom.trim()}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                        </div>
-                        <div class="md:col-span-2 flex justify-end">
-                            <button
-                                type="submit"
-                                class="btn-primary px-6 py-2 text-sous-titre uppercase tracking-wide"
-                            >
-                                Ajouter
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -317,6 +346,71 @@ const genres = [
 </Layout>
 
 <script>
+    // Accordéon formulaire
+    const toggleFormBtn = document.getElementById("toggle-form");
+    const formAccordion = document.getElementById("form-accordion");
+    const toggleFormLabel = document.getElementById("toggle-form-label");
+    let formOpen = false;
+    toggleFormBtn?.addEventListener("click", () => {
+        formOpen = !formOpen;
+        if (formAccordion)
+            formAccordion.style.display = formOpen ? "block" : "none";
+        if (toggleFormLabel)
+            toggleFormLabel.textContent = formOpen
+                ? "Fermer le formulaire"
+                : "Ajouter un événement";
+    });
+
+    // Connexion PocketBase pour ajout
+    const addEventForm = document.getElementById("add-event-form");
+    const formMessage = document.getElementById("form-message");
+    addEventForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!addEventForm) return;
+        const date = document.getElementById("event-date").value;
+        const time = document.getElementById("event-time").value;
+        const artisteId = document.getElementById("event-artist").value;
+        const genre = document.getElementById("event-genre").value;
+        const sceneId = document.getElementById("event-scene").value;
+
+        // Construction de l'objet à envoyer
+        const data = {
+            date_heure: `${date}T${time}:00`,
+            titre_representation: `Événement`,
+            artiste: artisteId,
+            scene: sceneId,
+            genre,
+        };
+
+        try {
+            // URL PocketBase correcte
+            const res = await fetch(
+                "https://festicloze.rahmaproject.fr/api/collections/representation/records",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                },
+            );
+            if (res.ok) {
+                formMessage.textContent = "Événement ajouté avec succès !";
+                formMessage.style.color = "green";
+                addEventForm.reset();
+            } else {
+                const err = await res.json();
+                formMessage.textContent =
+                    "Erreur lors de l'ajout : " + (err.message || "");
+                formMessage.style.color = "red";
+            }
+        } catch (error) {
+            formMessage.textContent = "Erreur de connexion à PocketBase.";
+            formMessage.style.color = "red";
+        }
+    });
+
+    // ...existing code...
     const filterScene = document.getElementById("filter-scene");
     const filterGenre = document.getElementById("filter-genre");
     const filterHoraire = document.getElementById("filter-horaire");
@@ -343,10 +437,10 @@ const genres = [
             const matchHoraire = !horaireValue || itemHoraire === horaireValue;
 
             if (matchScene && matchGenre && matchHoraire) {
-                (item as HTMLElement).style.display = "";
+                item.style.display = "";
                 visibleCount++;
             } else {
-                (item as HTMLElement).style.display = "none";
+                item.style.display = "none";
             }
         });
 
@@ -356,9 +450,9 @@ const genres = [
                 '.programme-item:not([style*="display: none"])',
             );
             if (visibleItems.length === 0) {
-                (day as HTMLElement).style.display = "none";
+                day.style.display = "none";
             } else {
-                (day as HTMLElement).style.display = "";
+                day.style.display = "";
             }
         });
 

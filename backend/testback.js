@@ -14,52 +14,52 @@ import { upsertRepresentation } from './backend.mjs'
 // ============================================
 // TEST: getArtistes - Liste tous les artistes
 // ============================================
-/*try {
+try {
     const artistes = await getArtistes();
     console.table(artistes);
 } catch (e) {
     console.error(e);
-}*/
+}
 
 // ============================================
 // TEST: getArtistesByDate - Artistes triés par date de représentation
 // ============================================
-/*try {
+try {
     const artistes = await getArtistesByDate();
     console.table(artistes);
 } catch (e) {
     console.error(e);
-}*/
+}
 
 // ============================================
 // TEST: getArtistesAlphabetically - Artistes triés par ordre alphabétique
 // ============================================
-/*try {
+try {
     const artistes = await getArtistesAlphabetically();
     console.table(artistes);
 } catch (e) {
     console.error(e);
-}*/
+}
 
 // ============================================
 // TEST: getArtisteById - Infos d'un artiste par son id
 // ============================================
-/*try {
+try {
     const artiste = await getArtisteById('x5ls8z240tuh7o3');
     console.table(artiste);
 } catch (e) {
     console.error(e);
-}*/
+}
 
 // ============================================
 // TEST: getScenesByName - Liste des scènes triées par nom
 // ============================================
-/*try {
+try {
     const scenes = await getScenesByName();
     console.table(scenes);
 } catch (e) {
     console.error(e);
-}*/
+}
 
 // ============================================
 // TEST: getSceneById - Infos d'une scène par son id

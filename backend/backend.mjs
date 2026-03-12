@@ -129,15 +129,15 @@ export async function getArtistesBySceneId(sceneId) {
 // Fonction qui retourne tous les artistes se produisant sur une scène donnée par son nom, triés par date
 export async function getArtistesBySceneName(sceneName) {
     try {
-        // D'abord, trouver la scène par son nom
+        // Trouver la scène par son nom exact
         const scenes = await pb.collection("scene").getFullList({
-            filter: `nom ~ "${sceneName}"`
+            filter: `nom = "${sceneName}"`
         });
         if (scenes.length === 0) {
             console.warn("Aucune scène trouvée avec ce nom");
             return [];
         }
-        // Ensuite, récupérer les artistes de cette scène
+        // Récupérer les artistes de cette scène
         const sceneId = scenes[0].id;
         return await getArtistesBySceneId(sceneId);
     } catch (error) {

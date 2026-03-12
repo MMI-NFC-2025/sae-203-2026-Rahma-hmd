@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { getArtistesByDate } from "../../../backend/backend.mjs";
-
+import ImagePB from "../../components/ImagePB.astro";
 import heroImage from "../../assets/images/festival.avif";
 
 const rawArtistes = await getArtistesByDate();
@@ -63,16 +63,17 @@ const artistes = rawArtistes.map((artiste) => {
                                     href={`/artistes/${artiste.id}`}
                                     class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-or-vieilli focus-visible:ring-offset-2 focus-visible:ring-offset-beige-claire rounded-3xl"
                                 >
-                                    <article
-                                        class="bg-marron-fonce rounded-3xl shadow-lg overflow-hidden w-full transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl"
-                                    >
+                                    <article class="bg-marron-fonce rounded-3xl shadow-lg overflow-hidden w-full transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl">
                                         <div class="w-full">
-                                            <img
-                                                src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${artiste.photo}`}
-                                                alt={artiste.nom}
-                                                loading="lazy"
-                                                class="w-full h-44 md:h-56 object-cover"
-                                            />
+                                            {artiste.photo && (
+                                                <ImagePB
+                                                    record={artiste}
+                                                    field="photo"
+                                                    alt={artiste.nom}
+                                                    classPicture="w-full h-44 md:h-56 object-cover"
+                                                    thumb="1024x1024"
+                                                />
+                                            )}
                                         </div>
 
                                         <div class="px-6 py-5 space-y-1 text-left">

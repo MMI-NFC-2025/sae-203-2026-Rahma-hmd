@@ -1,3 +1,14 @@
+/**
+ * Retourne l'URL d'un fichier PocketBase à partir d'un record et d'un champ.
+ * @param {object} record - L'enregistrement PocketBase
+ * @param {string} field - Le nom du champ fichier
+ * @param {string} [thumb="1024x1024"] - La taille du thumbnail
+ * @returns {string|null} L'URL du fichier ou null
+ */
+export function getFileURL(record, field, thumb = "1024x1024") {
+    if (!record || !field) return null;
+    return pb.files.getUrl(record, field, { thumb });
+}
 // Importation de la bibliothèque PocketBase
 import PocketBase from "pocketbase";
 

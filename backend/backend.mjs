@@ -1,14 +1,3 @@
-/**
- * Retourne l'URL d'un fichier PocketBase à partir d'un record et d'un champ.
- * @param {object} record - L'enregistrement PocketBase
- * @param {string} field - Le nom du champ fichier
- * @param {string} [thumb="1024x1024"] - La taille du thumbnail
- * @returns {string|null} L'URL du fichier ou null
- */
-export function getFileURL(record, field, thumb = "1024x1024") {
-    if (!record || !field) return null;
-    return pb.files.getUrl(record, field, { thumb });
-}
 // Importation de la bibliothèque PocketBase
 import PocketBase from "pocketbase";
 
@@ -20,6 +9,20 @@ const pb = new PocketBase(POCKETBASE_URL);
 
 // Exportation de l'instance PocketBase pour l'utiliser dans d'autres fichiers
 export { pb };
+
+/**
+ * Retourne l'URL d'un fichier PocketBase à partir d'un record et d'un champ.
+ * @param {object} record - L'enregistrement PocketBase
+ * @param {string} field - Le nom du champ fichier
+ * @param {string} [thumb="1024x1024"] - La taille du thumbnail
+ * @returns {string|null} L'URL du fichier ou null
+ */
+export function getFileURL(record, field, thumb = "1024x1024") {
+    if (!record || !field) return null;
+    const filename = record[field]; // ← récupère la valeur du champ (nom du fichier)
+    if (!filename) return null;
+    return pb.files.getUrl(record, filename, { thumb });
+}
 
 // ============================================
 // FONCTIONS ARTISTES
@@ -244,4 +247,3 @@ export async function sendContactMessage(data) {
         return null;
     }
 }
-

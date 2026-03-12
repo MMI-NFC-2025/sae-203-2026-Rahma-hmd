@@ -13,6 +13,16 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
+  // Autoriser les images distantes depuis festicloze.rahmaproject.fr
+  image: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'festicloze.rahmaproject.fr',
+      },
+    ],
+  },
+
   adapter: netlify({
     imageCDN: false,
   }),

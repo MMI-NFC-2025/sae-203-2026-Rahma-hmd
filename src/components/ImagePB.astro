@@ -1,0 +1,34 @@
+---
+import { getFileURL } from "../../backend/backend.mjs";
+
+// Props :
+// - record : l'objet PocketBase (artiste)
+// - field : le champ ("photo" ou "galerie")
+// - filename : nom du fichier (pour la galerie)
+// - alt, classPicture, classImg, thumb
+const { record, field, filename, alt, classPicture, classImg, thumb } =
+    Astro.props;
+
+let imageUrl = null;
+if (record && field === "galerie" && filename) {
+    // Cas galerie : construire l'URL à la main
+    imageUrl = `https://festicloze.rahmaproject.fr/api/files/artistes/${record.id}/${filename}?thumb=${thumb || "1024x1024"}`;
+} else if (record && field) {
+    // Cas champ fichier unique
+    imageUrl = getFileURL(record, field, thumb);
+}
+---
+
+<>
+    {
+        imageUrl && (
+            <img
+                src={imageUrl}
+                alt={alt || ""}
+                class={classImg || classPicture}
+                loading="lazy"
+                decoding="async"
+            />
+        )
+    }
+</>

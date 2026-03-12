@@ -1,12 +1,10 @@
 ---
+
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
-import {
-    getArtisteById,
-    getRepresentations,
-} from "../../../backend/backend.mjs";
-
+import { getArtisteById, getRepresentations } from "../../../backend/backend.mjs";
 import heroImage from "../../assets/images/festival.avif";
+import ImagePB from "../../components/ImagePB.astro";
 
 const { id } = Astro.params;
 
@@ -58,7 +56,7 @@ const datesFormatees = representations.map((rep) => {
             loading="eager"
         />
         <div
-            class="absolute inset-0 bg-gradient-to-t from-marron-fonce/70 to-transparent"
+            class="absolute inset-0 bg-linear-to-t from-marron-fonce/70 to-transparent"
         >
         </div>
         <div class="absolute inset-0 flex items-end">
@@ -81,16 +79,15 @@ const datesFormatees = representations.map((rep) => {
                     <div
                         class="rounded-3xl overflow-hidden shadow-xl bg-marron-fonce/5"
                     >
-                        {
-                            artiste?.photo && (
-                                <img
-                                    src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${artiste.photo}`}
+                            {artiste?.photo && (
+                                <ImagePB
+                                    record={artiste}
+                                    field="photo"
                                     alt={artiste.nom}
-                                    class="w-full h-72 md:h-96 object-cover"
-                                    loading="lazy"
+                                    classPicture="w-full h-72 md:h-96 object-cover"
+                                    thumb="1024x1024"
                                 />
-                            )
-                        }
+                            )}
                     </div>
 
                     <!-- Description -->
@@ -112,29 +109,31 @@ const datesFormatees = representations.map((rep) => {
                     {
                         Array.isArray(artiste?.galerie) &&
                             artiste.galerie.length > 0 && (
-                                <div class="space-y-4">
-                                    <h2 class="font-corps font-bold text-marron-fonce text-xl md:text-2xl">
-                                        Galerie photo
-                                    </h2>
-                                    <div class="relative">
-                                        <div class="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
-                                            {artiste.galerie.map((photo) => (
-                                                <button
-                                                    type="button"
-                                                    class="min-w-[70%] md:min-w-[50%] lg:min-w-[40%] rounded-3xl overflow-hidden shadow-lg bg-marron-fonce/5 snap-start focus:outline-none focus-visible:ring-2 focus-visible:ring-or-vieilli"
-                                                    data-full-src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${photo}`}
-                                                >
-                                                    <img
-                                                        src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${photo}`}
-                                                        alt={artiste.nom}
-                                                        class="w-full h-48 md:h-64 object-cover pointer-events-none"
-                                                        loading="lazy"
-                                                    />
-                                                </button>
-                                            ))}
+                                    <div class="space-y-4">
+                                        <h2 class="font-corps font-bold text-marron-fonce text-xl md:text-2xl">
+                                            Galerie photo
+                                        </h2>
+                                        <div class="relative">
+                                            <div class="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+                                                {artiste.galerie.map((photo) => (
+                                                    <button
+                                                        type="button"
+                                                        class="min-w-[70%] md:min-w-[50%] lg:min-w-[40%] rounded-3xl overflow-hidden shadow-lg bg-marron-fonce/5 snap-start focus:outline-none focus-visible:ring-2 focus-visible:ring-or-vieilli"
+                                                        data-full-src={`https://festicloze.rahmaproject.fr/api/files/artistes/${artiste.id}/${photo}`}
+                                                    >
+                                                        <ImagePB
+                                                            record={artiste}
+                                                            field="galerie"
+                                                            filename={photo}
+                                                            alt={artiste.nom}
+                                                            classPicture="w-full h-48 md:h-64 object-cover pointer-events-none"
+                                                            thumb="1024x1024"
+                                                        />
+                                                    </button>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             )
                     }
                 </div>

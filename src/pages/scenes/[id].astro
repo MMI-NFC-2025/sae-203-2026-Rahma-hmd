@@ -4,8 +4,9 @@ import { Image } from "astro:assets";
 import {
     getSceneById,
     getRepresentations,
+    getFileURL,
 } from "../../../backend/backend.mjs";
-
+import ImagePB from "../../components/ImagePB.astro";
 import heroImage from "../../assets/images/festival.avif";
 
 const { id } = Astro.params;
@@ -35,10 +36,6 @@ const artistesParDate = representations.map((rep) => {
         }),
     };
 });
-
-const photoPrincipale = Array.isArray(scene?.photo)
-    ? scene.photo[0]
-    : scene?.photo;
 ---
 
 <Layout>
@@ -74,68 +71,75 @@ const photoPrincipale = Array.isArray(scene?.photo)
                     <div
                         class="rounded-3xl overflow-hidden shadow-xl bg-marron-fonce/5"
                     >
-                        {photoPrincipale && (
-                            <img
-                                src={`https://festicloze.rahmaproject.fr/api/files/scene/${scene.id}/${photoPrincipale}`}
-                                alt={scene.nom}
-                                class="w-full h-72 md:h-96 object-cover"
-                                loading="lazy"
-                            />
-                        )}
+                        {
+                            scene?.photo && (
+                                <ImagePB
+                                    record={scene}
+                                    field="photo"
+                                    alt={scene.nom}
+                                    classPicture="w-full h-72 md:h-96 object-cover"
+                                    thumb="1024x1024"
+                                />
+                            )
+                        }
                     </div>
 
                     <!-- Description / localisation / capacité -->
-                    {(scene?.description || scene?.localisation || scene?.capacite) && (
-                        <div class="space-y-3">
-                            {scene?.description && (
-                                <div
-                                    class="font-corps text-marron-fonce/90 leading-relaxed text-base md:text-lg prose max-w-none"
-                                    set:html={scene.description}
-                                >
-                                </div>
-                            )}
-                            {scene?.localisation && (
-                                <p class="font-corps text-marron-fonce/80 text-sm md:text-base">
-                                    Localisation : {scene.localisation}
-                                </p>
-                            )}
-                            {scene?.capacite && (
-                                <p class="font-corps text-marron-fonce/80 text-sm md:text-base">
-                                    Capacité : {scene.capacite} m²
-                                </p>
-                            )}
-                        </div>
-                    )}
+                    {
+                        (scene?.description ||
+                            scene?.localisation ||
+                            scene?.capacite) && (
+                            <div class="space-y-3">
+                                {scene?.description && (
+                                    <div
+                                        class="font-corps text-marron-fonce/90 leading-relaxed text-base md:text-lg prose max-w-none"
+                                        set:html={scene.description}
+                                    ></div>
+                                )}
+                                {scene?.localisation && (
+                                    <p class="font-corps text-marron-fonce/80 text-sm md:text-base">
+                                        Localisation : {scene.localisation}
+                                    </p>
+                                )}
+                                {scene?.capacite && (
+                                    <p class="font-corps text-marron-fonce/80 text-sm md:text-base">
+                                        Capacité : {scene.capacite} m²
+                                    </p>
+                                )}
+                            </div>
+                        )
+                    }
                 </div>
 
                 <!-- Colonne artistes -->
                 <aside class="col-full lg:col-span-5 space-y-8">
-                    {artistesParDate.length > 0 && (
-                        <div
-                            class="bg-marron-fonce text-beige-claire rounded-3xl p-6 space-y-3 shadow-lg"
-                        >
-                            <h2
-                                class="font-corps font-bold text-sous-titre text-lg md:text-xl uppercase tracking-wide"
-                            >
-                                Artistes par date
-                            </h2>
-                            <ul class="space-y-3 font-corps text-sm md:text-base">
-                                {artistesParDate.map((item) => (
-                                    <li class="flex flex-col">
-                                        <span class="font-medium">
-                                            {item.nom}
-                                        </span>
-                                        <span class="text-beige/80">
-                                            {item.dateLabel} — {item.heureLabel}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
+                    {
+                        artistesParDate.length > 0 && (
+                            <div class="bg-marron-fonce text-beige-claire rounded-3xl p-6 space-y-3 shadow-lg">
+                                <h2 class="font-corps font-bold text-sous-titre text-lg md:text-xl uppercase tracking-wide">
+                                    Artistes par date
+                                </h2>
+                                <ul class="space-y-3 font-corps text-sm md:text-base">
+                                    {artistesParDate.map((item) => (
+                                        <li class="flex flex-col">
+                                            <a
+                                                href={`/artistes/${item.id}`}
+                                                class="font-medium hover:text-or-vieilli transition-colors"
+                                            >
+                                                {item.nom}
+                                            </a>
+                                            <span class="text-beige/80">
+                                                {item.dateLabel} —{" "}
+                                                {item.heureLabel}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )
+                    }
                 </aside>
             </div>
         </div>
     </section>
 </Layout>
-*** End Patch```} !
